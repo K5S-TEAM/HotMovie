@@ -14,7 +14,7 @@ public class Movie {
 
     @Id
     @GeneratedValue
-    @Column(name = "item_id")
+    @Column(name = "movie_id")
     private Long id;
 
     private String name;
