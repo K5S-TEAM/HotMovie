@@ -1,21 +1,22 @@
 ## 목적
-
+Hello, This is PR Template
 
 ## 관련 issue
-
+- [x] close #12 
 
 ## 요구 사항
-- [ ] Example1
-- [ ] Example2
-- [ ] Example3
-
+- [x] []()
+- [x] []()
+- [x] []()
+- [x] []()
 
 ## 추가 사항
 
-
 ## 테스트 사항
-- [ ] Test1
-- [ ] Test2
-
+- [x] Test1
+- [x] Test2
+- [x] Test3
 
 ## Screenshot
+
+
