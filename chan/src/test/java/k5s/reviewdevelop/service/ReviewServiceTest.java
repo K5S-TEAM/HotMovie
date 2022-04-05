@@ -43,7 +43,7 @@ public class ReviewServiceTest {
         int score = 2;
 
         //When
-        Long reviewId = reviewService.register(member.getId(), movie.getId(), score);
+        Long reviewId = reviewService.register(member.getId(), movie.getId(), "재미없다", score);
 
 
         //Then
@@ -66,8 +66,8 @@ public class ReviewServiceTest {
         int score2 = 9;
 
         //When
-        Long reviewId = reviewService.register(member.getId(), movie.getId(), score);
-        Long reviewId2 = reviewService.register(member2.getId(), movie.getId(), score2);
+        Long reviewId = reviewService.register(member.getId(), movie.getId(), "이게 영화냐",score);
+        Long reviewId2 = reviewService.register(member2.getId(), movie.getId(), "너무 재밌다",score2);
 
         //Then
         Review getReview = reviewRepository.findOne(reviewId);
@@ -86,8 +86,8 @@ public class ReviewServiceTest {
         Movie movie = createMovie("Inception", "Its a very Hot Movie. So, I recommended this Movie to you");
         int score = 8;
         int score2 = 4;
-        Long reviewId = reviewService.register(member.getId(), movie.getId(), score);
-        Long reviewId2 = reviewService.register(member.getId(), movie.getId(), score2);
+        Long reviewId = reviewService.register(member.getId(), movie.getId(), "아주 재밌어요",score);
+        Long reviewId2 = reviewService.register(member.getId(), movie.getId(), "재미 없다",score2);
 
         //When
         reviewService.deleteReview(reviewId2);

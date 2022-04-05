@@ -22,14 +22,14 @@ public class ReviewService {
     /**
      * 리뷰 등록
      */
-    public Long register(Long memberId, Long movieId, int score){
+    public Long register(Long memberId, Long movieId, String description, int score){
 
         //엔티티 조회
         Member member = memberRepository.findOne(memberId);
         Movie movie = movieRepository.findOne(movieId);
 
         //리뷰 생성
-        Review review = Review.createReview(member, movie, score);
+        Review review = Review.createReview(member, movie, description, score);
 
         reviewRepository.save(review);
         return review.getId();
