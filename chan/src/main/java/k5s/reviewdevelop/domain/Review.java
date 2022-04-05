@@ -50,10 +50,11 @@ public class Review {
     }
 
     //==생성 메서드==//
-    public static Review createReview(Member member, Movie movie, int score) {
+    public static Review createReview(Member member, Movie movie, String description, int score) {
         Review review = new Review();
         review.setMember(member);
         review.setMovie(movie, score);
+        review.setDescription(description);
         review.setDateTime(LocalDateTime.now());
         return review;
     }

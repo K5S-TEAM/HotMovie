@@ -1,10 +1,21 @@
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://review-develop-db.ctupwybe3pr8.us-east-1.rds.amazonaws.com:3306/review_develop_db
+    username: emrhssla
+    password: em89138913
 
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
 
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
-
 
 server:
   port : 8081
