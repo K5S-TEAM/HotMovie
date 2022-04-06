@@ -33,7 +33,7 @@ public class Movie {
     private float averageScore;
 
     //==Movie가 삭제되면 review들도 삭제된다==//
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
     @ManyToMany(mappedBy = "movies")
