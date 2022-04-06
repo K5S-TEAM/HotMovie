@@ -1,6 +1,7 @@
 package k5s.reviewdevelop.service;
 
 import k5s.reviewdevelop.domain.Movie;
+import k5s.reviewdevelop.domain.Review;
 import k5s.reviewdevelop.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,9 @@ public class MovieService {
 
     public Movie findOne(Long movieId) {
         return movieRepository.findOne(movieId);
+    }
+
+    public Movie findReviews(Long movieId) {
+        return movieRepository.findReviews(movieId);
     }
 }
