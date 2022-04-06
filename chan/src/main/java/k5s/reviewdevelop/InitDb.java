@@ -39,7 +39,7 @@ public class InitDb {
             em.persist(movie2);
             reviewService.register(member.getId(), movie1.getId(), "재미있습니다", 8);
             reviewService.register(member.getId(), movie2.getId(), "재미없습니다", 3);
-
+            reviewService.register(member.getId(), movie2.getId(), "완전 재미있습니다", 9);
         }
 
         public void dbInit2() {
