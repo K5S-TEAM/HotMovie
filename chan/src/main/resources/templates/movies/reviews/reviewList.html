@@ -4,7 +4,10 @@
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <h3 th:text="|${movieName}영화의 리뷰|">default Movie Name</h3>
+    <div class="navigation">
+        <h3 th:text="|${movieName}영화의 리뷰|">default Movie Name</h3>
+        <button th:onclick="|location.href='@{/movies/{movieId}/reviews/new(movieId=${movieId})}'|" type="submit" class="btn btn-primary">리뷰 쓰기</button>
+    </div>
     <div>
         <table class="table table-striped">
             <thead> <tr>
