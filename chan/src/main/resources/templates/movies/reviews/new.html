@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
 <body>
-Review 쓰기
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="navigation">
+        <h3 th:text="|${movieName}영화의 리뷰 글쓰기|">default Movie Name</h3>
+    </div>
+    <form th:object="${form}" method="post">
+
+        <div class="form-group">
+            <label for="formScore">평점</label>
+            <select th:field="*{score}" id="formScore" class="form-control" type="number">
+                <option value="">점수 선택</option>
+                <option th:each="score : ${#numbers.sequence(1,10)}"
+                        th:value="${score}"
+                        th:text="${score}" />
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label th:for="name">코멘트 내용</label>
+            <input type="text" th:field="*{description}" class="form-control"
+                   placeholder="내용을 입력하세요"> </div>
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg" onclick="location.href='items.html'"
+                        th:onclick="|location.href='@{/}'|"
+                        type="button">취소</button>
+            </div>
+
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">리뷰 등록</button>
+            </div>
+
+        </div>
+    </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
 </body>
 </html>

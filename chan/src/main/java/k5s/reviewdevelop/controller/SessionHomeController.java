@@ -79,4 +79,8 @@ public class SessionHomeController {
         return "loginHome";
     }
 
+    @GetMapping("/loginPage")
+    public String loginPage() {
+        return "loginPage";
+    }
 }
