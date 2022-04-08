@@ -221,3 +221,6 @@ h4{
     		background-size: cover;
     		background-position: center;
     	}
+    a:not([href]):not([tabindex]){
+        color: white;
+    }
