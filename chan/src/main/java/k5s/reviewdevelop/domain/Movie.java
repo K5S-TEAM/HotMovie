@@ -23,13 +23,10 @@ public class Movie {
 
     private String description;
 
-    @Transient
     private int num = 0;
 
-    @Transient
     private float sumScore = 0;
 
-    @Transient
     private float averageScore;
 
     //==Movie가 삭제되면 review들도 삭제된다==//
