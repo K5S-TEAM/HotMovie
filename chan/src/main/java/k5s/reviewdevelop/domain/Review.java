@@ -21,7 +21,7 @@ public class Review {
     @Column(name = "review_id")
     private Long id;
 
-    private int score;
+    private Integer score;
 
     private LocalDateTime dateTime;
 
