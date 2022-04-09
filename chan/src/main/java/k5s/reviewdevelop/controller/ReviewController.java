@@ -12,8 +12,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -40,7 +43,7 @@ public class ReviewController {
     }
 
     @GetMapping("/new")
-    public String write(@SessionAttribute(name = "loginMemberTEST", required = false) Member loginMember, @PathVariable("movieId") Long movieId, Model model){
+    public String write(@SessionAttribute(name = "loginMemberTEST", required = false) Member loginMember, @PathVariable("movieId") Long movieId, Model model, ReviewForm form){
 
         //세션에 회원 데이터가 없으면 home
         if (loginMember == null) {
@@ -50,19 +53,21 @@ public class ReviewController {
         //세션이 유지되면 로그인으로 이동
         model.addAttribute("movieName", movie.getName());
         model.addAttribute("member", loginMember);
-        model.addAttribute("movieName", movie.getName());
-        model.addAttribute("form", new ReviewForm());
         return "movies/reviews/new";
     }
 
     @PostMapping("/new")
     public String register(@SessionAttribute(name = "loginMemberTEST", required = false) Member loginMember,
-                           @PathVariable("movieId") Long movieId, ReviewForm form){
+                           @PathVariable("movieId") Long movieId, @Valid ReviewForm form, BindingResult bindingResult, Model model){
+        Movie movie = movieService.findOne(movieId);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("movieName", movie.getName());
+            return "movies/reviews/new";
+        }
         //세션에 회원 데이터가 없으면 home
         if (loginMember == null) {
             return "redirect:/loginPage";
         }
-        Movie movie = movieService.findOne(movieId);
         reviewService.register(loginMember.getId(), movieId, form.getDescription(), form.getScore());
         return "redirect:/movies/{movieId}/reviews";
     }
