@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review {
 
@@ -21,7 +20,7 @@ public class Review {
     @Column(name = "review_id")
     private Long id;
 
-    private Integer score;
+    private int score;
 
     private LocalDateTime dateTime;
 
@@ -37,14 +36,14 @@ public class Review {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    public void setMember(Member member) {
+    public void mappingMember(Member member) {
         this.member = member;
         member.getReviews().add(this);
     }
 
-    public void setMovie(Movie movie, int score) {
+    public void mappingMovie(Movie movie, int score) {
         this.score = score;
-        movie.setAverageScore(score);
+        movie.createAverageScore(score);
         this.movie = movie;
         movie.getReviews().add(this);
     }
@@ -52,10 +51,10 @@ public class Review {
     //==생성 메서드==//
     public static Review createReview(Member member, Movie movie, String description, int score) {
         Review review = new Review();
-        review.setMember(member);
-        review.setMovie(movie, score);
-        review.setDescription(description);
-        review.setDateTime(LocalDateTime.now());
+        review.mappingMember(member);
+        review.mappingMovie(movie, score);
+        review.description = description;
+        review.dateTime =  LocalDateTime.now();
         return review;
     }
 

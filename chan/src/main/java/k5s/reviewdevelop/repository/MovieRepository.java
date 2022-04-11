@@ -32,10 +32,8 @@ public class MovieRepository {
         try{
             movieTypedQuery.getSingleResult();
         } catch(NoResultException e){
-            Movie movie = new Movie();
-            movie.setName("NoMovie");
-            movie.setDescription("NoMovie");
-            em.persist(movie);
+            Movie movie = Movie.createMovie("NoMovie", "NoMovie");
+            this.save(movie);
             return movie;
         }
         return movieTypedQuery.getSingleResult();

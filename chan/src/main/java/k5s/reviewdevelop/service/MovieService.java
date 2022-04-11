@@ -32,4 +32,14 @@ public class MovieService {
     public Movie findReviews(Long movieId) {
         return movieRepository.findReviews(movieId);
     }
+
+    public Long register(String name, String description){
+
+        Movie movie = Movie.createMovie(name, description);
+        movieRepository.save(movie);
+
+        return movie.getId();
+
+    }
+
 }
