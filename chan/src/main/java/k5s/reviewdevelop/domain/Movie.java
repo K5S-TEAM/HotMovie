@@ -6,12 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Movie {
 
     @Id
@@ -40,11 +41,20 @@ public class Movie {
         members.add(member);
     }
 
-    public void setAverageScore(int score){
+    public void createAverageScore(int score){
         this.sumScore += score;
         this.num += 1;
         this.averageScore = (sumScore/num);
     }
+
+    //== 생성 메서드 ==//
+    public static Movie createMovie(String name, String description){
+        Movie movie = new Movie();
+        movie.name = name;
+        movie.description = description;
+        return movie;
+    }
+
 
     //==비지니스 로직==//
     /** 리뷰 삭제 */
