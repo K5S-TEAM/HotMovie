@@ -44,7 +44,8 @@ public class ReviewService {
         //리뷰 엔티티 조회
         Review review = reviewRepository.findOne(reviewId);
         //리뷰 삭제
-        review.delete();
+        review.deleteScore();
+        reviewRepository.delete(reviewId);
     }
 
 }

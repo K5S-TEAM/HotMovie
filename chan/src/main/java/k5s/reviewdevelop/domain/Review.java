@@ -59,8 +59,8 @@ public class Review {
     }
 
     //==비지니스 로직==//
-    /** 리뷰 삭제 */
-    public void delete() {
+    /** 리뷰 점수 삭제 */
+    public void deleteScore() {
         movie.deleteReview(score);
     }
 

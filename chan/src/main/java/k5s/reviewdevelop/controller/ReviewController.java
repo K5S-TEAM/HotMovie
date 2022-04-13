@@ -6,6 +6,7 @@ import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
 import k5s.reviewdevelop.form.ReviewForm;
 import k5s.reviewdevelop.repository.ReviewRepository;
+import k5s.reviewdevelop.service.MemberService;
 import k5s.reviewdevelop.service.MovieService;
 import k5s.reviewdevelop.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +29,18 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final MovieService movieService;
+    private final MemberService memberService;
 
     @GetMapping
-    public String list(@PathVariable("movieId") Long movieId,Model model) {
+    public String list(@SessionAttribute(name = "loginMemberTEST", required = false) Member member, @PathVariable("movieId") Long movieId,Model model) {
 
         Movie movie = movieService.findReviews(movieId);
         if (movie.getName() == "NoMovie"){
             return "movies/reviews/error";
+        }
+        log.info(String.valueOf(member));
+        if (member != null) {
+            model.addAttribute("memberId", member.getId());
         }
         model.addAttribute("movieName", movie.getName());
         model.addAttribute("movieId", movie.getId());
@@ -69,6 +75,15 @@ public class ReviewController {
             return "redirect:/loginPage";
         }
         reviewService.register(loginMember.getId(), movieId, form.getDescription(), form.getScore());
+        return "redirect:/movies/{movieId}/reviews";
+    }
+
+    @PostMapping(value = "/{reviewId}/cancel")
+    public String cancelOrder(@PathVariable("movieId") Long movieId, @PathVariable("reviewId") Long reviewId) {
+        Movie movie = movieService.findOne(movieId);
+        log.info("총 영화점수" + String.valueOf(movie.getSumScore()));
+        reviewService.deleteReview(reviewId);
+        log.info("총 영화점수" + String.valueOf(movie.getSumScore()));
         return "redirect:/movies/{movieId}/reviews";
     }
 }
