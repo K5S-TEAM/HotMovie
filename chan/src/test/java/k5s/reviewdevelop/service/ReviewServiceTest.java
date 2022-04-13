@@ -17,6 +17,8 @@ import javax.persistence.PersistenceContext;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -40,6 +42,12 @@ public class ReviewServiceTest {
     @Autowired
     MovieRepository movieRepository;
 
+    @Test
+    public void 리뷰없는영화(){
+        Long movieId = movieService.register("Inception", "Its a very Hot Movie. So, I recommended this Movie to you");
+        String name = movieService.findReviews(movieId).getName();
+        assertEquals("영화의 리뷰가 없어도 영화 fetch join 조회는 가능해야한다", "Inception", name);
+    }
 
     @Test
     public void 한개리뷰등록() throws Exception{
