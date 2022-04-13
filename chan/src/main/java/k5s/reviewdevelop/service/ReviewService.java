@@ -18,7 +18,7 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final MovieRepository movieRepository;
-
+ 
     /**
      * 리뷰 등록
      */
