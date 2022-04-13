@@ -28,7 +28,7 @@ public class MovieRepository {
         return em.createQuery("select m from Movie m", Movie.class).getResultList();
     }
     public Movie findReviews(Long id){
-        TypedQuery<Movie> movieTypedQuery = em.createQuery("select distinct m from Movie m join fetch m.reviews where m.id = :movieId", Movie.class).setParameter("movieId", id);
+        TypedQuery<Movie> movieTypedQuery = em.createQuery("select distinct m from Movie m left join fetch m.reviews where m.id = :movieId", Movie.class).setParameter("movieId", id);
         try{
             movieTypedQuery.getSingleResult();
         } catch(NoResultException e){

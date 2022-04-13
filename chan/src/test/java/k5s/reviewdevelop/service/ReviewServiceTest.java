@@ -17,6 +17,8 @@ import javax.persistence.PersistenceContext;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -40,6 +42,12 @@ public class ReviewServiceTest {
     @Autowired
     MovieRepository movieRepository;
 
+    @Test
+    public void 리뷰없는영화(){
+        Long movieId = movieService.register("Inception", "Its a very Hot Movie. So, I recommended this Movie to you");
+        String name = movieService.findReviews(movieId).getName();
+        assertEquals("영화의 리뷰가 없어도 영화 fetch join 조회는 가능해야한다", "Inception", name);
+    }
 
     @Test
     public void 한개리뷰등록() throws Exception{
@@ -89,7 +97,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    public void 리뷰삭제() {
+    public void 리뷰점수삭제() {
         //Given
         Member member = createMember("emrhssla@naver.com", LocalDate.of(2019,11,12));
         Long movieId = movieService.register("Inception", "Its a very Hot Movie. So, I recommended this Movie to you");
@@ -112,6 +120,45 @@ public class ReviewServiceTest {
         assertEquals("영화에 등록된 리뷰의 갯수는 줄어야한다",1-1, movie.getNum());
         assertEquals("리뷰의 점수 종합은 삭제된 리뷰의 점수가 빠져야한다",8-8, movie.getSumScore(),0.0001);
         assertEquals("리뷰 갯수가 0개일 경우 평균 점수는 0이어야한다",0, movie.getAverageScore(),0.0001);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void 리뷰삭제() throws Exception{
+        //Given
+        Member member = createMember("emrhssla@naver.com", LocalDate.of(2019,11,12));
+        Long movieId = movieService.register("Inception", "Its a very Hot Movie. So, I recommended this Movie to you");
+        int score = 8;
+        int score2 = 4;
+        Long reviewId = reviewService.register(member.getId(), movieId, "아주 재밌어요",score);
+        Long reviewId2 = reviewService.register(member.getId(), movieId, "재미 없다",score2);
+
+        //When
+        reviewService.deleteReview(reviewId2);
+        em.clear(); //영속성컨텍스트를 비운다
+
+        //Then
+        String description = reviewRepository.findOne(reviewId2).getDescription();
+        fail("삭제한 리뷰를 조회할시 NULL 값이어야한다");
+    }
+
+    @Test
+    public void 리뷰삭제후_영화상태() throws Exception{
+        //Given
+        Member member = createMember("emrhssla@naver.com", LocalDate.of(2019,11,12));
+        Long movieId = movieService.register("Inception", "Its a very Hot Movie. So, I recommended this Movie to you");
+        int score = 8;
+        int score2 = 4;
+        Long reviewId = reviewService.register(member.getId(), movieId, "아주 재밌어요",score);
+        Long reviewId2 = reviewService.register(member.getId(), movieId, "재미 없다",score2);
+
+        //When
+        reviewService.deleteReview(reviewId2);
+        em.clear(); //영속성컨텍스트를 비운다
+
+        //Then
+        Movie movie = movieService.findOne(movieId);
+        assertEquals("리뷰 삭제후 해당 영화가 갖는 리뷰의 갯수는 줄어야한다", 2-1, movie.getReviews().size());
+        assertEquals("리뷰의 종합 점수는 줄어야한다", 12-4, movie.getSumScore(), 0.0001);
     }
 
     private Member createMember(String email, LocalDate localDate) {
