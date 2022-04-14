@@ -4,6 +4,7 @@ package k5s.reviewdevelop.controller;
 import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
+import k5s.reviewdevelop.domain.UpdateReviewDto;
 import k5s.reviewdevelop.form.ReviewForm;
 import k5s.reviewdevelop.repository.ReviewRepository;
 import k5s.reviewdevelop.service.MemberService;
@@ -30,6 +31,7 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final MovieService movieService;
     private final MemberService memberService;
+    private final ReviewRepository reviewRepository;
 
     @GetMapping
     public String list(@SessionAttribute(name = "loginMemberTEST", required = false) Member member, @PathVariable("movieId") Long movieId,Model model) {
@@ -84,6 +86,34 @@ public class ReviewController {
         log.info("총 영화점수" + String.valueOf(movie.getSumScore()));
         reviewService.deleteReview(reviewId);
         log.info("총 영화점수" + String.valueOf(movie.getSumScore()));
+        return "redirect:/movies/{movieId}/reviews";
+    }
+
+
+    @GetMapping("/{reviewId}/edit")
+    public String updateReview(@PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model) {
+        Review review = reviewRepository.findOne(reviewId);
+        form.setId(review.getId());
+        form.setScore(review.getScore());
+        form.setDescription(review.getDescription());
+
+        Movie movie = movieService.findOne(movieId);
+        //세션이 유지되면 로그인으로 이동
+        model.addAttribute("movieName", movie.getName());
+        return "movies/reviews/edit";
+    }
+
+    @PostMapping("/{reviewId}/edit")
+    public String updateItem(@PathVariable Long movieId, @PathVariable Long reviewId, @Valid ReviewForm form, BindingResult bindingResult, Model model) {
+
+        Movie movie = movieService.findOne(movieId);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("movieName", movie.getName());
+            return "movies/reviews/edit";
+        }
+
+        reviewService.updateReview(new UpdateReviewDto(form));
         return "redirect:/movies/{movieId}/reviews";
     }
 }
