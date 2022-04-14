@@ -3,6 +3,7 @@ package k5s.reviewdevelop.service;
 import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
+import k5s.reviewdevelop.domain.UpdateReviewDto;
 import k5s.reviewdevelop.repository.MovieRepository;
 import k5s.reviewdevelop.repository.ReviewRepository;
 import org.junit.Test;
@@ -159,6 +160,30 @@ public class ReviewServiceTest {
         Movie movie = movieService.findOne(movieId);
         assertEquals("리뷰 삭제후 해당 영화가 갖는 리뷰의 갯수는 줄어야한다", 2-1, movie.getReviews().size());
         assertEquals("리뷰의 종합 점수는 줄어야한다", 12-4, movie.getSumScore(), 0.0001);
+    }
+
+    @Test
+    public void 리뷰수정(){
+        //Given
+        Member member = createMember("emrhssla@naver.com", LocalDate.of(2019,11,12));
+        Long movieId = movieService.register("Inception", "Its a very Hot Movie. So, I recommended this Movie to you");
+        int score = 8;
+        Long reviewId = reviewService.register(member.getId(), movieId, "아주 재밌어요",score);
+
+        //When
+        UpdateReviewDto updateReviewDto = new UpdateReviewDto(reviewId, 4, "바뀐 description");
+        reviewService.updateReview(updateReviewDto);
+
+        //Then
+        Review review = reviewRepository.findOne(reviewId);
+         assertEquals("리뷰 수정 후 리뷰 점수는 바뀐 점수어야한다", 4, review.getScore());
+        assertEquals("리뷰 수정 후 리뷰 점수는 바뀐 점수어야한다", "바뀐 description", review.getDescription());
+
+
+        Movie movie = movieService.findOne(movieId);
+        assertEquals("리뷰 수정 후 영화 평균 점수는 바뀌어야한다", 4, movie.getAverageScore(), 0.0001);
+
+
     }
 
     private Member createMember(String email, LocalDate localDate) {

@@ -3,6 +3,7 @@ package k5s.reviewdevelop.service;
 import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
+import k5s.reviewdevelop.domain.UpdateReviewDto;
 import k5s.reviewdevelop.repository.MemberRepository;
 import k5s.reviewdevelop.repository.MovieRepository;
 import k5s.reviewdevelop.repository.ReviewRepository;
@@ -46,6 +47,18 @@ public class ReviewService {
         //리뷰 삭제
         review.deleteScore();
         reviewRepository.delete(reviewId);
+    }
+
+    /**
+     * 리뷰 수정
+     */
+    @Transactional
+    public void updateReview(UpdateReviewDto updateReviewDto) {
+        //리뷰 엔티티 조회
+        Review review = reviewRepository.findOne(updateReviewDto.getId());
+        Integer prevScore = review.getScore();
+        review.updateReview(updateReviewDto);
+        review.updateScore(prevScore);
     }
 
 }
