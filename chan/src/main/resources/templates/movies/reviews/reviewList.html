@@ -22,6 +22,9 @@
                 <td th:text="${review.description}"></td>
                 <td th:text="${review.dateTime}"></td>
                 <td>
+                    <a th:if="${memberId} == ${review.member.id}" href="#" th:href="@{/movies/{movieId}/reviews/{reviewId}/edit (movieId=${movieId}, reviewId=${review.id})}" class="btn btn-primary" role="button">수정</a>
+                </td>
+                <td>
                     <a th:if="${memberId} == ${review.member.id}" href="#"
                        th:href="'javascript:cancel('+${movieId}+', '+${review.id}+')'"
                        class="btn btn-danger">삭제</a>

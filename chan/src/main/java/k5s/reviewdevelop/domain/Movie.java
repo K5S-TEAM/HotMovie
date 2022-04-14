@@ -57,7 +57,7 @@ public class Movie {
 
 
     //==비지니스 로직==//
-    /** 리뷰 삭제 */
+    /** 리뷰 점수 삭제 */
     public void deleteReview(int score) {
         this.num -= 1;
         this.sumScore -= score;
@@ -68,5 +68,12 @@ public class Movie {
         else {
             this.averageScore = 0.00f; /**리뷰 갯수가 0일 경우 분모에 0이 올순 없다**/
         }
+    }
+
+    /** 리뷰 점수 수정 */
+    public void updateReview(int prevScore, int score) {
+        this.sumScore -= prevScore;
+        this.sumScore += score;
+        this.averageScore = (sumScore / num);
     }
 }

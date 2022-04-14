@@ -64,4 +64,20 @@ public class Review {
         movie.deleteReview(score);
     }
 
+
+    /**
+     * 리뷰 수정
+     */
+    public void updateReview(UpdateReviewDto reviewDto) {
+        this.id = reviewDto.getId();
+        this.score = reviewDto.getScore();
+        this.dateTime = LocalDateTime.now();
+        this.description = reviewDto.getDescription();
+    }
+
+
+    /** 리뷰 점수 삭제 */
+    public void updateScore(int prevScore) {
+        movie.updateReview(prevScore, score);
+    }
 }
