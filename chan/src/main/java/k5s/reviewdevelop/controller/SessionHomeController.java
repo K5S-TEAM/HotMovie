@@ -4,6 +4,7 @@ import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
+
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 public class SessionHomeController {
 
+
     private final MemberRepository memberRepository;
+
+    @Value("${msa.member-login}")
+    String loginURL;
 
     @RequestMapping("/")
     public String home(){
@@ -81,6 +89,6 @@ public class SessionHomeController {
 
     @GetMapping("/loginPage")
     public String loginPage() {
-        return "loginPage";
+        return "redirect:"+loginURL;
     }
 }
