@@ -4,3 +4,6 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
+
+msa:
+  member-login: http://3.34.45.251/auth/login

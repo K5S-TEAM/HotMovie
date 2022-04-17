@@ -4,6 +4,8 @@ spring:
     url: jdbc:mysql://review-develop-db.ctupwybe3pr8.us-east-1.rds.amazonaws.com:3306/review_develop_db
     username: emrhssla
     password: em89138913
+  application:
+    name: webclient
 
   jpa:
     hibernate:
@@ -24,3 +26,5 @@ server:
       timeout: 30m
       tracking-modes: cookie
 
+msa:
+  member-login: http://3.34.45.251/auth/login
