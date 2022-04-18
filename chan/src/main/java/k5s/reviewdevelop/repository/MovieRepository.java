@@ -1,7 +1,6 @@
 package k5s.reviewdevelop.repository;
 
 import k5s.reviewdevelop.domain.Movie;
-import k5s.reviewdevelop.domain.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

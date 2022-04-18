@@ -19,6 +19,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Null;
 import java.util.List;
 
 
@@ -36,17 +37,20 @@ public class ReviewController {
     @GetMapping
     public String list(@SessionAttribute(name = "loginMemberTEST", required = false) Member member, @PathVariable("movieId") Long movieId,Model model) {
 
-        Movie movie = movieService.findReviews(movieId);
-        if (movie.getName() == "NoMovie"){
+
+        Movie movie = movieService.findOne(movieId);
+        if (movie == null)
+        {
             return "movies/reviews/error";
         }
-        log.info(String.valueOf(member));
+
+        List<Review> reviews = reviewService.findReviews(movieId);
         if (member != null) {
             model.addAttribute("memberId", member.getId());
         }
         model.addAttribute("movieName", movie.getName());
         model.addAttribute("movieId", movie.getId());
-        model.addAttribute("reviews", movie.getReviews());
+        model.addAttribute("reviews", reviews);
         return "movies/reviews/reviewList";
     }
 

@@ -10,6 +10,7 @@ import k5s.reviewdevelop.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -59,6 +60,10 @@ public class ReviewService {
         Integer prevScore = review.getScore();
         review.updateReview(updateReviewDto);
         review.updateScore(prevScore);
+    }
+
+    public List<Review> findReviews(Long movieId) {
+        return reviewRepository.findReviews(movieId);
     }
 
 }
