@@ -8,6 +8,7 @@ import k5s.reviewdevelop.repository.MovieRepository;
 import k5s.reviewdevelop.repository.ReviewRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.matchers.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -183,7 +184,40 @@ public class ReviewServiceTest {
         Movie movie = movieService.findOne(movieId);
         assertEquals("리뷰 수정 후 영화 평균 점수는 바뀌어야한다", 4, movie.getAverageScore(), 0.0001);
 
+    }
 
+    @Test
+    public void 영화에맞는리뷰찾기(){
+
+        //Given
+        Member member = createMember("emrhssla@naver.com", LocalDate.of(2019,11,12));
+        Long movieId = movieService.register("Inception", "Its a very Hot Movie. So, I recommended this Movie to you");
+
+        //When
+        Movie movie = movieService.findOne(10L);
+
+        //Then
+        assertNull("영화가 없을 경우 Null이어야한다", movie);
+
+    }
+
+    @Test
+    public void 영화가없을경우(){
+
+        //Given
+        Member member = createMember("emrhssla@naver.com", LocalDate.of(2019,11,12));
+        Long movieId = movieService.register("Inception", "Its a very Hot Movie. So, I recommended this Movie to you");
+
+
+        //When
+        int score = 8;
+        int score2 = 4;
+        reviewService.register(member.getId(), movieId, "아주 재밌어요",score);
+        reviewService.register(member.getId(), movieId, "재미 없다",score2);
+
+        //Then
+        List<Review> reviews = reviewService.findReviews(movieId);
+        assertEquals("리뷰의 갯수는 정확해야한다", 2, reviews.size());
     }
 
     private Member createMember(String email, LocalDate localDate) {
