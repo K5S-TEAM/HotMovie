@@ -3,12 +3,11 @@ package k5s.reviewdevelop.service;
 import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
-import k5s.reviewdevelop.domain.UpdateReviewDto;
+import k5s.reviewdevelop.dto.UpdateReviewDto;
 import k5s.reviewdevelop.repository.MovieRepository;
 import k5s.reviewdevelop.repository.ReviewRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.matchers.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -18,9 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 

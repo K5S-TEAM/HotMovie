@@ -20,7 +20,7 @@ logging.level:
   org.hibernate.type: trace
 
 server:
-  port : 8081
+  port : 8080
   servlet:
     session:
       timeout: 30m
@@ -28,3 +28,4 @@ server:
 
 msa:
   member-login: http://3.34.45.251/auth/login
+  auth: http://13.209.76.94:8080

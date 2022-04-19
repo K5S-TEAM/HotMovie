@@ -7,3 +7,4 @@ logging.level:
 
 msa:
   member-login: http://3.34.45.251/auth/login
+  auth: http://13.209.76.94:8080

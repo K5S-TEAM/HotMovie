@@ -4,7 +4,7 @@ package k5s.reviewdevelop.controller;
 import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
-import k5s.reviewdevelop.domain.UpdateReviewDto;
+import k5s.reviewdevelop.dto.UpdateReviewDto;
 import k5s.reviewdevelop.form.ReviewForm;
 import k5s.reviewdevelop.repository.ReviewRepository;
 import k5s.reviewdevelop.service.MemberService;
@@ -15,11 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Null;
 import java.util.List;
 
 
@@ -59,7 +57,7 @@ public class ReviewController {
 
         //세션에 회원 데이터가 없으면 home
         if (loginMember == null) {
-            return "redirect:/loginPage";
+            return "redirect:/movies/reviews/loginPage";
         }
         Movie movie = movieService.findOne(movieId);
         //세션이 유지되면 로그인으로 이동
@@ -120,4 +118,6 @@ public class ReviewController {
         reviewService.updateReview(new UpdateReviewDto(form));
         return "redirect:/movies/{movieId}/reviews";
     }
+
+
 }
