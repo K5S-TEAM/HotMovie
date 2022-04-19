@@ -1,4 +1,4 @@
-package k5s.reviewdevelop.domain;
+package k5s.reviewdevelop.dto;
 
 import k5s.reviewdevelop.form.ReviewForm;
 import lombok.Getter;

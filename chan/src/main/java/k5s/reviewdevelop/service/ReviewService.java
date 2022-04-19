@@ -3,7 +3,7 @@ package k5s.reviewdevelop.service;
 import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
-import k5s.reviewdevelop.domain.UpdateReviewDto;
+import k5s.reviewdevelop.dto.UpdateReviewDto;
 import k5s.reviewdevelop.repository.MemberRepository;
 import k5s.reviewdevelop.repository.MovieRepository;
 import k5s.reviewdevelop.repository.ReviewRepository;

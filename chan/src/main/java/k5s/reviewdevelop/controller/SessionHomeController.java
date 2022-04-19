@@ -87,7 +87,7 @@ public class SessionHomeController {
         return "loginHome";
     }
 
-    @GetMapping("/loginPage")
+    @GetMapping("/movies/reviews/loginPage")
     public String loginPage() {
         return "redirect:"+loginURL;
     }
