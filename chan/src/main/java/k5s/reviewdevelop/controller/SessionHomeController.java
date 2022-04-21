@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 
 
-@Controller
+//@Controller
 @Slf4j
 @RequiredArgsConstructor
 public class SessionHomeController {

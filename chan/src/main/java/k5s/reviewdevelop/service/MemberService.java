@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final AuthService authService;
 
     /**
      * 회원가입
@@ -42,5 +43,11 @@ public class MemberService {
 
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
+    }
+
+    @Transactional
+    public Member findMember(String accessToken) {
+        Long id = authService.requestAuthentication(accessToken);
+        return memberRepository.findOne(id);
     }
 }

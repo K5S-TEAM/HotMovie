@@ -58,4 +58,30 @@ public class MemberServiceTest {
         fail("예외가 발생해야 한다.");
     }
 
+    @Test
+    public void 멤버조회() throws Exception {
+
+        //Given
+        Member member1 = new Member();
+        member1.setEmail("emrhssla1@gmail.com");
+
+
+        //When
+        memberService.join(member1);
+
+        //Then
+        System.out.println("member1 = " + member1.getId()+"member1 email =" + member1.getEmail());
+
+
+    }
+
+    @Test
+    public void 없는멤버조회() throws Exception {
+
+        Member member = memberService.findOne(-2L);
+
+        assertNull("멤버가 없을 경우 Null이어야한다", member);
+
+    }
+
 }

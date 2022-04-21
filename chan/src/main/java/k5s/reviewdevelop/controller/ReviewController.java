@@ -33,9 +33,12 @@ public class ReviewController {
     private final ReviewRepository reviewRepository;
 
     @GetMapping
-    public String list(@SessionAttribute(name = "loginMemberTEST", required = false) Member member, @PathVariable("movieId") Long movieId,Model model) {
+    public String list(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable("movieId") Long movieId,Model model) {
 
-
+        Member member = memberService.findMember(accessToken);
+        if (member != null) {
+            model.addAttribute("memberId", member.getId());
+        }
         Movie movie = movieService.findOne(movieId);
         if (movie == null)
         {
@@ -43,9 +46,6 @@ public class ReviewController {
         }
 
         List<Review> reviews = reviewService.findReviews(movieId);
-        if (member != null) {
-            model.addAttribute("memberId", member.getId());
-        }
         model.addAttribute("movieName", movie.getName());
         model.addAttribute("movieId", movie.getId());
         model.addAttribute("reviews", reviews);
@@ -53,30 +53,30 @@ public class ReviewController {
     }
 
     @GetMapping("/new")
-    public String write(@SessionAttribute(name = "loginMemberTEST", required = false) Member loginMember, @PathVariable("movieId") Long movieId, Model model, ReviewForm form){
+    public String write(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable("movieId") Long movieId, Model model, ReviewForm form){
 
-        //세션에 회원 데이터가 없으면 home
+        Member loginMember = memberService.findMember(accessToken);
         if (loginMember == null) {
-            return "redirect:/movies/reviews/loginPage";
+            return "redirect:/movies/{movieId}/reviews/loginPage";
         }
+
         Movie movie = movieService.findOne(movieId);
-        //세션이 유지되면 로그인으로 이동
         model.addAttribute("movieName", movie.getName());
         model.addAttribute("member", loginMember);
         return "movies/reviews/new";
     }
 
     @PostMapping("/new")
-    public String register(@SessionAttribute(name = "loginMemberTEST", required = false) Member loginMember,
+    public String register(@CookieValue(value = "accessToken", required = false) String accessToken,
                            @PathVariable("movieId") Long movieId, @Valid ReviewForm form, BindingResult bindingResult, Model model){
         Movie movie = movieService.findOne(movieId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("movieName", movie.getName());
-            return "movies/reviews/new";
+            return "movies/999/reviews/new";
         }
-        //세션에 회원 데이터가 없으면 home
+        Member loginMember = memberService.findMember(accessToken);
         if (loginMember == null) {
-            return "redirect:/loginPage";
+            return "redirect:/movies/{movieId}/reviews/loginPage";
         }
         reviewService.register(loginMember.getId(), movieId, form.getDescription(), form.getScore());
         return "redirect:/movies/{movieId}/reviews";
