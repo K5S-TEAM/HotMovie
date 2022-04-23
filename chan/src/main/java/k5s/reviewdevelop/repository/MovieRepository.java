@@ -14,11 +14,7 @@ import java.util.List;
 public class MovieRepository {
     private final EntityManager em;
     public void save(Movie movie) {
-        if (movie.getId() == null) {
-            em.persist(movie);
-        } else {
-            em.merge(movie);
-        }
+        em.persist(movie);
     }
     public Movie findOne(Long id) {
         return em.find(Movie.class, id);
@@ -27,14 +23,6 @@ public class MovieRepository {
         return em.createQuery("select m from Movie m", Movie.class).getResultList();
     }
     public Movie findReviews(Long id){
-        TypedQuery<Movie> movieTypedQuery = em.createQuery("select distinct m from Movie m left join fetch m.reviews where m.id = :movieId", Movie.class).setParameter("movieId", id);
-        try{
-            movieTypedQuery.getSingleResult();
-        } catch(NoResultException e){
-            Movie movie = Movie.createMovie("NoMovie", "NoMovie");
-            this.save(movie);
-            return movie;
-        }
-        return movieTypedQuery.getSingleResult();
+        return null;
     }
 }

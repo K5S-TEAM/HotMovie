@@ -40,15 +40,15 @@ public class ReviewNoMemberController {
         if (memberId != null) {
             model.addAttribute("memberId", memberId);
         }
-        Movie movie = movieService.findOne(movieId);
-        if (movie == null)
+        String movieName = movieService.findMovieName(movieId);
+        if (movieName == null)
         {
             return "movies/reviews/error";
         }
 
         List<Review> reviews = reviewService.findReviews(movieId);
-        model.addAttribute("movieName", movie.getName());
-        model.addAttribute("movieId", movie.getId());
+        model.addAttribute("movieName", movieName);
+        model.addAttribute("movieId", movieId);
         model.addAttribute("reviews", reviews);
         return "movies/reviews/reviewList";
     }
@@ -61,8 +61,8 @@ public class ReviewNoMemberController {
             return "redirect:/movies/{movieId}/reviews/loginPage";
         }
 
-        Movie movie = movieService.findOne(movieId);
-        model.addAttribute("movieName", movie.getName());
+        String movieName = movieService.findMovieName(movieId);
+        model.addAttribute("movieName", movieName);
         //model.addAttribute("member", loginMember);
         return "movies/reviews/new";
     }
@@ -70,9 +70,9 @@ public class ReviewNoMemberController {
     @PostMapping("/new")
     public String register(@CookieValue(value = "accessToken", required = false) String accessToken,
                            @PathVariable("movieId") Long movieId, @Valid ReviewForm form, BindingResult bindingResult, Model model){
-        Movie movie = movieService.findOne(movieId);
+        String movieName = movieService.findMovieName(movieId);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("movieName", movie.getName());
+            model.addAttribute("movieName", movieName);
             return "movies/999/reviews/new";
         }
         Long memberId = authService.requestAuthentication(accessToken);
@@ -80,6 +80,8 @@ public class ReviewNoMemberController {
             return "redirect:/movies/{movieId}/reviews/loginPage";
         }
         reviewService.register(memberId, movieId, form.getDescription(), form.getScore());
+        Movie movie = movieService.findOne(movieId);
+        log.info("총 영화점수" + String.valueOf(movie.getSumScore()));
         return "redirect:/movies/{movieId}/reviews";
     }
 
@@ -100,9 +102,10 @@ public class ReviewNoMemberController {
         form.setScore(review.getScore());
         form.setDescription(review.getDescription());
 
-        Movie movie = movieService.findOne(movieId);
+        //Movie movie = movieService.findOne(movieId);
+        String movieName = movieService.findMovieName(movieId);
         //세션이 유지되면 로그인으로 이동
-        model.addAttribute("movieName", movie.getName());
+        model.addAttribute("movieName", movieName);
         return "movies/reviews/edit";
     }
 
@@ -111,8 +114,9 @@ public class ReviewNoMemberController {
 
         Movie movie = movieService.findOne(movieId);
 
+        String movieName = movieService.findMovieName(movieId);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("movieName", movie.getName());
+            model.addAttribute("movieName", movieName);
             return "movies/reviews/edit";
         }
 

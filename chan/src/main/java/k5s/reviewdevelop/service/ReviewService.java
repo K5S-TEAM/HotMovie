@@ -20,6 +20,7 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final MovieRepository movieRepository;
+    private final MovieService movieService;
  
     /**
      * 리뷰 등록
@@ -27,11 +28,12 @@ public class ReviewService {
     public Long register(Long memberId, Long movieId, String description, int score){
 
         //엔티티 조회
-        Member member = memberRepository.findOne(memberId);
+        if (movieRepository.findOne(movieId)==null) {
+            movieService.register(movieId);
+        }
         Movie movie = movieRepository.findOne(movieId);
-
         //리뷰 생성
-        Review review = Review.createReview(member, movie, description, score);
+        Review review = Review.createReview(memberId, movie, description, score);
 
         reviewRepository.save(review);
         return review.getId();
