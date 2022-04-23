@@ -18,6 +18,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -47,6 +49,8 @@ public class ReviewNoMemberController {
         }
 
         List<Review> reviews = reviewService.findReviews(movieId);
+        HashMap<Long, String> nickNames = memberService.findNickNamesInHTML(reviews);
+        model.addAttribute("nickNames", nickNames);
         model.addAttribute("movieName", movieName);
         model.addAttribute("movieId", movieId);
         model.addAttribute("reviews", reviews);
