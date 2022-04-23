@@ -27,18 +27,23 @@ public class Review {
 
     private String description;
 
+    private Long memberId;
+    /*
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+     */
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
+    /*
     public void mappingMember(Member member) {
         this.member = member;
         member.getReviews().add(this);
     }
+     */
 
     public void mappingMovie(Movie movie, int score) {
         this.score = score;
@@ -48,9 +53,9 @@ public class Review {
     }
 
     //==생성 메서드==//
-    public static Review createReview(Member member, Movie movie, String description, int score) {
+    public static Review createReview(Long memberId, Movie movie, String description, int score) {
         Review review = new Review();
-        review.mappingMember(member);
+        review.memberId = memberId;
         review.mappingMovie(movie, score);
         review.description = description;
         review.dateTime =  LocalDateTime.now();

@@ -27,6 +27,7 @@ import java.util.List;
 @RequestMapping("/movies/{movieId}/reviews")
 public class ReviewController {
 
+    /*
     private final ReviewService reviewService;
     private final MovieService movieService;
     private final MemberService memberService;
@@ -118,6 +119,8 @@ public class ReviewController {
         reviewService.updateReview(new UpdateReviewDto(form));
         return "redirect:/movies/{movieId}/reviews";
     }
+
+     */
 
 
 }

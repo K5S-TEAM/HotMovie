@@ -7,9 +7,11 @@ spring:
   application:
     name: webclient
 
+
   jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     properties:
       hibernate:
         #show_sql: true
@@ -29,3 +31,4 @@ server:
 msa:
   member-login: http://3.34.45.251/auth/login
   auth: http://13.209.76.94:8080
+  movie: http://13.125.77.149:8080

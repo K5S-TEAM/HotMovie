@@ -22,6 +22,7 @@ public class Member {
 
     private LocalDate birthDate;
 
+    /*
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
@@ -35,5 +36,6 @@ public class Member {
         movies.add(movie);
         movie.addMember(this);
     }
+    */
 
 }

@@ -2,8 +2,11 @@ package k5s.reviewdevelop.service;
 
 import k5s.reviewdevelop.dto.AuthenticationRequestDto;
 import k5s.reviewdevelop.dto.AuthenticationResponseDto;
+import k5s.reviewdevelop.dto.MovieRequestDto;
+import k5s.reviewdevelop.dto.MovieResponseDto;
 import k5s.reviewdevelop.exception.InvalidAuthenticationException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +19,14 @@ import reactor.core.publisher.Mono;
 @Transactional
 public class AuthService {
 
-    private final WebClient webClient;
+    @Value("${msa.auth}")
+    String authServerUrl;
 
 
     @Transactional
     public Long requestAuthentication(String accessToken) {
+
+        WebClient webClient = WebClient.builder().baseUrl(authServerUrl).build();
 
         if (accessToken == null)
         {
@@ -48,6 +54,7 @@ public class AuthService {
     @Transactional
     public void logout(String accessToken) {
 
+        WebClient webClient = WebClient.builder().baseUrl(authServerUrl).build();
         AuthenticationRequestDto dto = new AuthenticationRequestDto(accessToken);
 
         AuthenticationResponseDto result = webClient.post()

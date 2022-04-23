@@ -16,13 +16,8 @@ import java.util.List;
 public class Movie {
 
     @Id
-    @GeneratedValue
     @Column(name = "movie_id")
     private Long id;
-
-    private String name;
-
-    private String description;
 
     private int num = 0;
 
@@ -34,12 +29,14 @@ public class Movie {
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
+    /*
     @ManyToMany(mappedBy = "movies")
     private List<Member> members = new ArrayList<>();
 
     public void addMember(Member member) {
         members.add(member);
     }
+     */
 
     public void createAverageScore(int score){
         this.sumScore += score;
@@ -48,10 +45,9 @@ public class Movie {
     }
 
     //== 생성 메서드 ==//
-    public static Movie createMovie(String name, String description){
+    public static Movie createMovie(Long id){
         Movie movie = new Movie();
-        movie.name = name;
-        movie.description = description;
+        movie.id = id;
         return movie;
     }
 
