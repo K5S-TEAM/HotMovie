@@ -32,3 +32,4 @@ msa:
   member-login: http://3.34.45.251/auth/login
   auth: http://13.209.76.94:8080
   movie: http://13.125.77.149:8080
+  
