@@ -85,7 +85,7 @@ public class ReviewNoMemberController {
         if (memberId == -1) {
             return "redirect:/movies/{movieId}/reviews/loginPage";
         }
-        reviewService.register(memberId, movieId, form.getDescription(), form.getScore());
+        reviewService.register(movieName, memberId, movieId, form.getDescription(), form.getScore());
         Movie movie = movieService.findOne(movieId);
         movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
         return "redirect:/movies/{movieId}/reviews";

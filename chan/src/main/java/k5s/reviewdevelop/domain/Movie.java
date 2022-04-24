@@ -19,6 +19,8 @@ public class Movie {
     @Column(name = "movie_id")
     private Long id;
 
+    private String name;
+
     private int num = 0;
 
     private double sumScore = 0;
@@ -45,8 +47,9 @@ public class Movie {
     }
 
     //== 생성 메서드 ==//
-    public static Movie createMovie(Long id){
+    public static Movie createMovie(String name, Long id){
         Movie movie = new Movie();
+        movie.name = name;
         movie.id = id;
         return movie;
     }

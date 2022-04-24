@@ -25,11 +25,11 @@ public class ReviewService {
     /**
      * 리뷰 등록
      */
-    public Long register(Long memberId, Long movieId, String description, int score){
+    public Long register(String movieName, Long memberId, Long movieId, String description, int score){
 
         //엔티티 조회
         if (movieRepository.findOne(movieId)==null) {
-            movieService.register(movieId);
+            movieService.register(movieName, movieId);
         }
         Movie movie = movieRepository.findOne(movieId);
         //리뷰 생성
@@ -66,6 +66,10 @@ public class ReviewService {
 
     public List<Review> findReviews(Long movieId) {
         return reviewRepository.findReviews(movieId);
+    }
+
+    public List<Review> findReviewsByMember(Long memberId) {
+        return reviewRepository.findReviewsByMember(memberId);
     }
 
 }
