@@ -10,6 +10,7 @@ import k5s.reviewdevelop.service.AuthService;
 import k5s.reviewdevelop.service.MemberService;
 import k5s.reviewdevelop.service.MovieService;
 import k5s.reviewdevelop.service.ReviewService;
+import k5s.reviewdevelop.service.api.MovieAPI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,7 @@ public class ReviewNoMemberController {
     private final MovieService movieService;
     private final MemberService memberService;
     private final ReviewRepository reviewRepository;
+    private final MovieAPI movieAPI;
     private final AuthService authService;
 
     @GetMapping
@@ -85,16 +87,15 @@ public class ReviewNoMemberController {
         }
         reviewService.register(memberId, movieId, form.getDescription(), form.getScore());
         Movie movie = movieService.findOne(movieId);
-        log.info("총 영화점수" + String.valueOf(movie.getSumScore()));
+        movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
         return "redirect:/movies/{movieId}/reviews";
     }
 
     @PostMapping(value = "/{reviewId}/cancel")
     public String cancelOrder(@PathVariable("movieId") Long movieId, @PathVariable("reviewId") Long reviewId) {
         Movie movie = movieService.findOne(movieId);
-        log.info("총 영화점수" + String.valueOf(movie.getSumScore()));
         reviewService.deleteReview(reviewId);
-        log.info("총 영화점수" + String.valueOf(movie.getSumScore()));
+        movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
         return "redirect:/movies/{movieId}/reviews";
     }
 
@@ -125,6 +126,7 @@ public class ReviewNoMemberController {
         }
 
         reviewService.updateReview(new UpdateReviewDto(form));
+        movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
         return "redirect:/movies/{movieId}/reviews";
     }
 }
