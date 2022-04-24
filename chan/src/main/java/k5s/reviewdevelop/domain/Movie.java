@@ -21,9 +21,9 @@ public class Movie {
 
     private int num = 0;
 
-    private float sumScore = 0;
+    private double sumScore = 0;
 
-    private float averageScore;
+    private double averageScore;
 
     //==Movie가 삭제되면 review들도 삭제된다==//
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
@@ -62,7 +62,7 @@ public class Movie {
             this.averageScore = (sumScore / num);
         }
         else {
-            this.averageScore = 0.00f; /**리뷰 갯수가 0일 경우 분모에 0이 올순 없다**/
+            this.averageScore = 0.00; /**리뷰 갯수가 0일 경우 분모에 0이 올순 없다**/
         }
     }
 
