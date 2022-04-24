@@ -39,6 +39,7 @@ public class ReviewServiceTestForAPI {
     @Autowired
     MovieRepository movieRepository;
 
+    /*
     @Test
     public void 한개리뷰등록() throws Exception{
 
@@ -61,6 +62,7 @@ public class ReviewServiceTestForAPI {
         assertEquals("리뷰의 평균 점수는 총점/갯수이다.",2/1, movie.getAverageScore(),0.0001);
 
     }
+     */
 
 
 
