@@ -120,16 +120,31 @@ public class ReviewNoMemberController {
         String movieName = movieService.findMovieName(movieId);
         //세션이 유지되면 로그인으로 이동
         model.addAttribute("movieName", movieName);
-        String referer = request.getHeader("Referer");
-        if (referer.contains("movies") && !(referer.contains("short"))){
-            return "movies/reviews/edit";
-        }
-        else if(referer.contains("short")){
-            return "member/reviews/short-edit";
-        }
-        else{
-            return "member/reviews/edit";
-        }
+        return "movies/reviews/edit";
+    }
+
+    @GetMapping("/{reviewId}/edit/my")
+    public String updateReviewByMember(@PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
+        Review review = reviewRepository.findOne(reviewId);
+        form.setId(review.getId());
+        form.setScore(review.getScore());
+        form.setDescription(review.getDescription());
+        String movieName = movieService.findMovieName(movieId);
+        //세션이 유지되면 로그인으로 이동
+        model.addAttribute("movieName", movieName);
+        return "member/reviews/edit";
+    }
+
+    @GetMapping("/{reviewId}/edit/short-my")
+    public String updateReviewByMemberInOtherServer(@PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
+        Review review = reviewRepository.findOne(reviewId);
+        form.setId(review.getId());
+        form.setScore(review.getScore());
+        form.setDescription(review.getDescription());
+        String movieName = movieService.findMovieName(movieId);
+        //세션이 유지되면 로그인으로 이동
+        model.addAttribute("movieName", movieName);
+        return "member/reviews/short-edit";
     }
 
     @PostMapping("/{reviewId}/edit")
