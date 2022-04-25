@@ -7,7 +7,7 @@
     <div class="navigation">
         <h3 th:text="|${movieName}영화 리뷰 수정|">default Movie Name</h3>
     </div>
-    <form th:object="${reviewForm}" method="post">
+    <form th:object="${reviewForm}" th:action="|http://3.34.45.251:8080/movies/${movieId}/reviews/${reviewForm.id}/edit/my|" method="post">
         <input type="hidden" th:field="*{id}" />
         <div class="form-group">
             <label for="formScore">평점</label>
@@ -31,7 +31,7 @@
         <div class="row">
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg" onclick="location.href='items.html'"
-                        th:onclick="|location.href='@{/}'|"
+                        th:onclick="|location.href='@{/reviews/my}'|"
                         type="button">취소</button>
             </div>
 

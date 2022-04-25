@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public class ReviewNoMemberController {
         model.addAttribute("movieName", movieName);
         model.addAttribute("movieId", movieId);
         model.addAttribute("reviews", reviews);
-        return "movies/reviews/reviewList";
+        return "movies/reviews/list";
     }
 
     @GetMapping("/new")
@@ -66,7 +67,6 @@ public class ReviewNoMemberController {
         if (memberId == -1L) {
             return "redirect:/movies/{movieId}/reviews/loginPage";
         }
-
         String movieName = movieService.findMovieName(movieId);
         model.addAttribute("movieName", movieName);
         //model.addAttribute("member", loginMember);
@@ -79,7 +79,7 @@ public class ReviewNoMemberController {
         String movieName = movieService.findMovieName(movieId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("movieName", movieName);
-            return "movies/999/reviews/new";
+            return "movies/reviews/new";
         }
         Long memberId = authService.requestAuthentication(accessToken);
         if (memberId == -1) {
@@ -92,16 +92,25 @@ public class ReviewNoMemberController {
     }
 
     @PostMapping(value = "/{reviewId}/cancel")
-    public String cancelOrder(@PathVariable("movieId") Long movieId, @PathVariable("reviewId") Long reviewId) {
+    public String cancelOrder(@PathVariable("movieId") Long movieId, @PathVariable("reviewId") Long reviewId, HttpServletRequest request) {
         Movie movie = movieService.findOne(movieId);
         reviewService.deleteReview(reviewId);
         movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
-        return "redirect:/movies/{movieId}/reviews";
+        String referer = request.getHeader("Referer");
+        if (referer.contains("movies")){
+            return "redirect:/movies/{movieId}/reviews";
+        }
+        else if(referer.contains("short")){
+            return "redirect:/reviews/short-my";
+        }
+        else{
+            return "redirect:/reviews/my";
+        }
     }
 
 
     @GetMapping("/{reviewId}/edit")
-    public String updateReview(@PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model) {
+    public String updateReview(@PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
         Review review = reviewRepository.findOne(reviewId);
         form.setId(review.getId());
         form.setScore(review.getScore());
@@ -111,11 +120,20 @@ public class ReviewNoMemberController {
         String movieName = movieService.findMovieName(movieId);
         //세션이 유지되면 로그인으로 이동
         model.addAttribute("movieName", movieName);
-        return "movies/reviews/edit";
+        String referer = request.getHeader("Referer");
+        if (referer.contains("movies") && !(referer.contains("short"))){
+            return "movies/reviews/edit";
+        }
+        else if(referer.contains("short")){
+            return "member/reviews/short-edit";
+        }
+        else{
+            return "member/reviews/edit";
+        }
     }
 
     @PostMapping("/{reviewId}/edit")
-    public String updateItem(@PathVariable Long movieId, @PathVariable Long reviewId, @Valid ReviewForm form, BindingResult bindingResult, Model model) {
+    public String requestRegisterReview(@PathVariable Long movieId, @PathVariable Long reviewId, @Valid ReviewForm form, BindingResult bindingResult, Model model) {
 
         Movie movie = movieService.findOne(movieId);
 
@@ -129,4 +147,39 @@ public class ReviewNoMemberController {
         movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
         return "redirect:/movies/{movieId}/reviews";
     }
+
+    @PostMapping("/{reviewId}/edit/short-my")
+    public String requestRegisterReviewByMemberInOtherServer(@PathVariable Long movieId, @PathVariable Long reviewId, @Valid ReviewForm form, BindingResult bindingResult, Model model) {
+
+        Movie movie = movieService.findOne(movieId);
+        String movieName = movieService.findMovieName(movieId);
+        model.addAttribute("movieId", movieId);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("movieName", movieName);
+            return "member/reviews/short-edit";
+        }
+
+        reviewService.updateReview(new UpdateReviewDto(form));
+        movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
+        return "redirect:/reviews/short-my";
+    }
+
+    @PostMapping("/{reviewId}/edit/my")
+    public String requestRegisterReviewByMember(@PathVariable Long movieId, @PathVariable Long reviewId, @Valid ReviewForm form, BindingResult bindingResult, Model model) {
+
+        Movie movie = movieService.findOne(movieId);
+        String movieName = movieService.findMovieName(movieId);
+        model.addAttribute("movieId", movieId);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("movieName", movieName);
+            return "member/reviews/edit";
+        }
+
+        reviewService.updateReview(new UpdateReviewDto(form));
+        movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
+        return "redirect:/reviews/my";
+    }
+
+
+
 }
