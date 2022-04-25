@@ -26,7 +26,7 @@
                 <td th:text="${review.description}"></td>
                 <td th:text="${review.dateTime}"></td>
                 <td>
-                    <a href="#" th:href="@{/movies/{movieId}/reviews/{reviewId}/edit (movieId=${review.movie.id}, reviewId=${review.id})}" class="btn btn-primary" role="button">수정</a>
+                    <a href="#" th:href="@{/movies/{movieId}/reviews/{reviewId}/edit/my (movieId=${review.movie.id}, reviewId=${review.id})}" class="btn btn-primary" role="button">수정</a>
                 </td>
                 <td>
                     <a href="#"
