@@ -50,7 +50,7 @@ public class ReviewController {
         model.addAttribute("movieName", movie.getName());
         model.addAttribute("movieId", movie.getId());
         model.addAttribute("reviews", reviews);
-        return "movies/reviews/reviewList";
+        return "movies/reviews/list";
     }
 
     @GetMapping("/new")
