@@ -119,7 +119,7 @@ public class ReviewNoMemberController {
     public String updateReview(@PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
         Review review = reviewRepository.findOne(reviewId);
         form.setId(review.getId());
-        form.setScore(review.getScore());
+        form.setScore(0);
         form.setDescription(review.getDescription());
 
         //Movie movie = movieService.findOne(movieId);
@@ -133,7 +133,7 @@ public class ReviewNoMemberController {
     public String updateReviewByMember(@PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
         Review review = reviewRepository.findOne(reviewId);
         form.setId(review.getId());
-        form.setScore(review.getScore());
+        form.setScore(0);
         form.setDescription(review.getDescription());
         String movieName = movieService.findMovieName(movieId);
         //세션이 유지되면 로그인으로 이동
@@ -145,7 +145,7 @@ public class ReviewNoMemberController {
     public String updateReviewByMemberInOtherServer(@PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
         Review review = reviewRepository.findOne(reviewId);
         form.setId(review.getId());
-        form.setScore(review.getScore());
+        form.setScore(0 );
         form.setDescription(review.getDescription());
         String movieName = movieService.findMovieName(movieId);
         //세션이 유지되면 로그인으로 이동

@@ -8,18 +8,7 @@
     </div>
     <form th:object="${reviewForm}" method="post">
         <input type="hidden" th:field="*{id}" />
-        <div class="form-group">
-            <label for="formScore">평점</label>
-            <select th:field="*{score}" id="formScore" class="form-control" type="number" th:class="${#fields.hasErrors('score')}? 'form-control
-  fieldError' : 'form-control'">
-                <option value="">점수 선택</option>
-                <option th:each="score : ${#numbers.sequence(1,10)}"
-                        th:value="${score}"
-                        th:text="${score}" />
-            </select>
-            <p th:if="${#fields.hasErrors('score')}"
-               th:errors="*{score}">Incorrect date</p>
-        </div>
+        <div th:replace="fragments/form :: formStar"/>
 
         <div class="form-group">
             <label th:for="name">코멘트 내용</label>

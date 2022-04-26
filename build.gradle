@@ -38,3 +38,11 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar{
+	archiveFileName = 'k5smovie-review.jar'
+}
+
+jar {
+	enabled = false
+}

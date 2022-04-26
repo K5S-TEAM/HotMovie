@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div class="form-group">
+<div class="form-group" th:fragment="formStar">
     <label for="formScore" class="border-bottom"><strong>평점</strong></label>
     <div th:class="${#fields.hasErrors('score')}? 'fieldError star-rating space-x-4' : 'star-rating space-x-4'" class="star-rating space-x-4 mx-auto" id="formScore" th:field="*{score}">
         <input type="radio" id="10-stars" name="rating" value="10" th:field="*{score}"/>

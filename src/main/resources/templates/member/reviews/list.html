@@ -2,41 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
 <body>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <div class="navigation">
-        <!--<h3 th:text="|${movieName}영화의 리뷰|">default Movie Name</h3>-->
-        <!--<button th:onclick="|location.href='@{/movies/{movieId}/reviews/new(movieId=${movieId})}'|" type="submit" class="btn btn-primary">리뷰 쓰기</button>-->
-    </div>
-    <div>
-
-        <table class="table table-striped" th:each="review : ${reviews}">
+    <header class="navigation py-4 border-bottom border-5 row">
+        <div class="d-flex justify-content-between">
+            <h3 th:text="|내 리뷰|">default Movie Name</h3>
+        </div>
+    </header>
+    <div class="row row-cols-1 row-cols-md-3 g-4 review-card-container" th:each="review : ${reviews}">
+        <div style="width: 75%" class="align-self-end">
             <h3 th:text="${review.movie.name}"></h3>
-            <thead> <tr>
-                <th>점수</th> <th>코멘트</th> <th>작성일자</th> <th></th>
-            </tr>
-            </thead>
-            <tbody>
-
-
-
-
-            <tr>
-                <td th:text="${review.score}"></td>
-                <td th:text="${review.description}"></td>
-                <td th:text="${review.dateTime}"></td>
-                <td>
+        </div>
+        <div class="card w-75 mb-3" style="margin-top: 0px">
+            <div th:replace="fragments/list :: score"/>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${review.description}">Success card title</h5>
+                <div class="text-end">
                     <a href="#" th:href="@{/movies/{movieId}/reviews/{reviewId}/edit/my (movieId=${review.movie.id}, reviewId=${review.id})}" class="btn btn-primary" role="button">수정</a>
-                </td>
-                <td>
                     <a href="#"
                        th:href="'javascript:cancel('+${review.movie.id}+', '+${review.id}+')'"
                        class="btn btn-danger">삭제</a>
-                </td>
-            </tr>
-
-            </tbody>
-        </table>
+                </div>
+            </div>
+            <div th:replace="fragments/list :: date"/>
+        </div>
     </div>
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
