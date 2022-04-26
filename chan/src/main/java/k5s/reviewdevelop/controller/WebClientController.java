@@ -2,6 +2,7 @@ package k5s.reviewdevelop.controller;
 
 import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Review;
+import k5s.reviewdevelop.dto.AuthenticationResponseDto;
 import k5s.reviewdevelop.exception.InvalidAuthenticationException;
 import k5s.reviewdevelop.service.AuthService;
 import k5s.reviewdevelop.service.MemberService;
@@ -59,7 +60,8 @@ public class WebClientController {
             throw new InvalidAuthenticationException("인증 정보가 존재하지 않습니다.");
         }
 
-        Long id = authService.requestAuthentication(accessToken);
+        AuthenticationResponseDto authenticationResponseDto = authService.requestAuthentication(accessToken);
+        Long id = authenticationResponseDto.getId();
         return String.valueOf(id);
     }
 

@@ -2,36 +2,67 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
 <body>
-<div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <div class="navigation">
-        <h3 th:text="|${movieName}영화의 리뷰|">default Movie Name</h3>
-        <button th:onclick="|location.href='@{/movies/{movieId}/reviews/new(movieId=${movieId})}'|" type="submit" class="btn btn-primary">리뷰 쓰기</button>
-    </div>
-    <div>
-        <table class="table table-striped">
-            <thead> <tr>
-                <th>닉네임</th> <th>점수</th> <th>코멘트</th> <th>작성일자</th> <th></th>
-            </tr>
-            </thead>
-            <tbody>
+<nav class="navbar navbar-expand-md navbar-light bg-dark" th:fragment="bodyHeader">
 
-            <tr th:each="review : ${reviews}">
-                <td th:text="${nickNames.get(review.memberId)}"></td>
-                <td th:text="${review.score}"></td>
-                <td th:text="${review.description}"></td>
-                <td th:text="${review.dateTime}"></td>
-                <td>
+    <img src="https://k5s-member-convenience.s3.ap-northeast-2.amazonaws.com/common/k5s-icon.png"
+         width="40" height="40" class="mx-2">
+    <label class="text-light fw-bold me-3">K5sMovie</label>
+
+    <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link text-light font-weight-bold" href="http://3.34.45.251/movies/">Movies</a></li>
+    </ul>
+
+    <ul class="nav justify-content-end ms-auto">
+        <li th:if="${memberId != null}" class="nav-item">
+            <label class="nav-link text-light fw-bold" th:text="${memberName}+' 님'"></label>
+        </li>
+        <li th:if="${memberId != null}" class="nav-item">
+            <a class="nav-link text-light font-weight-bold" href="#">My Page</a>
+        </li>
+        <li th:if="${memberId != null}" class="nav-item pe-auto">
+            <a class="nav-link active" aria-current="page" th:onclick="|location.href='@{/reviews/list/logout}'|" href="#">Logout</a>
+        </li>
+        <li th:if="${memberId == null}" class="nav-item pe-auto">
+            <a class="nav-link active" aria-current="page" th:onclick="|location.href='@{/reviews/login}'|" href="#">Login</a>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <header class="navigation py-4 border-bottom border-5 row">
+        <div class="d-flex justify-content-start align-items-end">
+            <h1 th:text="|${movieName}|">default Movie Name</h1><h5>영화</h5>
+        </div>
+        <div class="d-flex justify-content-between">
+            <h3 th:text="|리뷰|">default Movie Name</h3>
+            <button th:onclick="|location.href='@{/movies/{movieId}/reviews/new(movieId=${movieId})}'|" type="submit" class="btn btn-primary">리뷰 쓰기</button>
+        </div>
+    </header>
+    <div class="row row-cols-1 row-cols-md-3 g-4 review-card-container" th:each="review : ${reviews}">
+        <div class="card w-75 mb-3">
+            <div class="card-header bg-transparent">
+                <div class="star-ratings">
+                    <div class="star-ratings-fill space-x-2 text-lg" th:style="|width: ${review.score*8.3}%|">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                    <div class="star-ratings-base space-x-2 text-lg">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span><span class="score-text" th:text="|  ${review.score}|"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${review.description}">Success card title</h5>
+                <p class="card-text" th:text="${nickNames.get(review.memberId)}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <div class="text-end">
                     <a th:if="${memberId} == ${review.memberId}" href="#" th:href="@{/movies/{movieId}/reviews/{reviewId}/edit (movieId=${movieId}, reviewId=${review.id})}" class="btn btn-primary" role="button">수정</a>
-                </td>
-                <td>
                     <a th:if="${memberId} == ${review.memberId}" href="#"
                        th:href="'javascript:cancel('+${movieId}+', '+${review.id}+')'"
                        class="btn btn-danger">삭제</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent text-end">
+                <small class="text-muted" th:text="${review.dateTime}">Last updated 3 mins ago</small>
+            </div>
+        </div>
     </div>
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->

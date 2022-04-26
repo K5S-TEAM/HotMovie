@@ -1,6 +1,7 @@
 package k5s.reviewdevelop.controller;
 
 import k5s.reviewdevelop.domain.Review;
+import k5s.reviewdevelop.dto.AuthenticationResponseDto;
 import k5s.reviewdevelop.service.AuthService;
 import k5s.reviewdevelop.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,8 @@ public class MemberController {
     @GetMapping("/my")
     public String memberReviewList(@CookieValue(value = "accessToken", required = false) String accessToken, Model model) {
 
-        Long memberId = authService.requestAuthentication(accessToken);
+        AuthenticationResponseDto authenticationResponseDto = authService.requestAuthentication(accessToken);
+        Long memberId = authenticationResponseDto.getId();
         if (memberId != null) {
             model.addAttribute("memberId", memberId);
         }
@@ -43,7 +45,8 @@ public class MemberController {
 
     @GetMapping("/short-my")
     public String memberShortReviewList(@CookieValue(value = "accessToken", required = false) String accessToken, Model model) {
-        Long memberId = authService.requestAuthentication(accessToken);
+        AuthenticationResponseDto authenticationResponseDto = authService.requestAuthentication(accessToken);
+        Long memberId = authenticationResponseDto.getId();
         if (memberId != null) {
             model.addAttribute("memberId", memberId);
         }

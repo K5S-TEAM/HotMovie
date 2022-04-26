@@ -24,13 +24,14 @@ public class AuthService {
 
 
     @Transactional
-    public Long requestAuthentication(String accessToken) {
+    public AuthenticationResponseDto requestAuthentication(String accessToken) {
 
         WebClient webClient = WebClient.builder().baseUrl(authServerUrl).build();
 
         if (accessToken == null)
         {
-            return -1L;
+            AuthenticationResponseDto errorDto = new AuthenticationResponseDto(-1L, "오류");
+            return errorDto;
         }
 
         AuthenticationRequestDto dto = new AuthenticationRequestDto(accessToken);
@@ -41,18 +42,16 @@ public class AuthService {
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new InvalidAuthenticationException("인증 정보가 존재하지 않습니다.")))
                 .bodyToMono(AuthenticationResponseDto.class)
-                .onErrorReturn(new AuthenticationResponseDto(-1L))
+                .onErrorReturn(new AuthenticationResponseDto(null))
                 .block();
 
-        if (result.getId() == null) {
-            throw new InvalidAuthenticationException("로그아웃상태입니다");
-        }
 
-        return result.getId();
+
+        return result;
     }
 
     @Transactional
-    public void logout(String accessToken) {
+    public void requestLogout(String accessToken) {
 
         WebClient webClient = WebClient.builder().baseUrl(authServerUrl).build();
         AuthenticationRequestDto dto = new AuthenticationRequestDto(accessToken);
