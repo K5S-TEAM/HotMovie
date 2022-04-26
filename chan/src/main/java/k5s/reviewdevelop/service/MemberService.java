@@ -2,6 +2,7 @@ package k5s.reviewdevelop.service;
 
 import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Review;
+import k5s.reviewdevelop.dto.AuthenticationResponseDto;
 import k5s.reviewdevelop.dto.MemberIdNicknameDto;
 import k5s.reviewdevelop.repository.MemberRepository;
 import k5s.reviewdevelop.service.api.MemberAPI;
@@ -53,7 +54,8 @@ public class MemberService {
 
     @Transactional
     public Member findMember(String accessToken) {
-        Long id = authService.requestAuthentication(accessToken);
+        AuthenticationResponseDto authenticationResponseDto = authService.requestAuthentication(accessToken);
+        Long id = authenticationResponseDto.getId();
         return memberRepository.findOne(id);
     }
 

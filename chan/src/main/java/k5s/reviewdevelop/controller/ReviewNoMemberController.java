@@ -3,6 +3,7 @@ package k5s.reviewdevelop.controller;
 import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
+import k5s.reviewdevelop.dto.AuthenticationResponseDto;
 import k5s.reviewdevelop.dto.UpdateReviewDto;
 import k5s.reviewdevelop.form.ReviewForm;
 import k5s.reviewdevelop.repository.ReviewRepository;
@@ -41,9 +42,11 @@ public class ReviewNoMemberController {
     @GetMapping
     public String list(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable("movieId") Long movieId, Model model) {
 
-        Long memberId = authService.requestAuthentication(accessToken);
+        AuthenticationResponseDto authenticationResponseDto = authService.requestAuthentication(accessToken);
+        Long memberId = authenticationResponseDto.getId();
         if (memberId != null) {
             model.addAttribute("memberId", memberId);
+            model.addAttribute("memberName", authenticationResponseDto.getName());
         }
         String movieName = movieService.findMovieName(movieId);
         if (movieName == null)
@@ -63,13 +66,15 @@ public class ReviewNoMemberController {
     @GetMapping("/new")
     public String write(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable("movieId") Long movieId, Model model, ReviewForm form){
 
-        Long memberId = authService.requestAuthentication(accessToken);
-        if (memberId == -1L) {
-            return "redirect:/movies/{movieId}/reviews/loginPage";
+        AuthenticationResponseDto authenticationResponseDto = authService.requestAuthentication(accessToken);
+        Long memberId = authenticationResponseDto.getId();
+        if (memberId == null) {
+            return "redirect:/reviews/login";
         }
+        model.addAttribute("memberId", memberId);
+        model.addAttribute("memberName", authenticationResponseDto.getName());
         String movieName = movieService.findMovieName(movieId);
         model.addAttribute("movieName", movieName);
-        //model.addAttribute("member", loginMember);
         return "movies/reviews/new";
     }
 
@@ -81,9 +86,10 @@ public class ReviewNoMemberController {
             model.addAttribute("movieName", movieName);
             return "movies/reviews/new";
         }
-        Long memberId = authService.requestAuthentication(accessToken);
-        if (memberId == -1) {
-            return "redirect:/movies/{movieId}/reviews/loginPage";
+        AuthenticationResponseDto authenticationResponseDto = authService.requestAuthentication(accessToken);
+        Long memberId = authenticationResponseDto.getId();
+        if (memberId == null) {
+            return "redirect:/reviews/login";
         }
         reviewService.register(movieName, memberId, movieId, form.getDescription(), form.getScore());
         Movie movie = movieService.findOne(movieId);

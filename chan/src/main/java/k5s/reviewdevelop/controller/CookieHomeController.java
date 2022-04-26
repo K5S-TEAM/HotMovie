@@ -39,6 +39,12 @@ public class CookieHomeController {
         return "redirect:/";
     }
 
+    private void expireCookie(HttpServletResponse response, String cookieName) {
+        Cookie cookie = new Cookie(cookieName, null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
+
     @GetMapping("/")
     public String homeLogin(@CookieValue(name = "memberId", required = false) Long memberId, Model model) {
 
@@ -56,9 +62,4 @@ public class CookieHomeController {
         return "loginHome";
     }
 
-    private void expireCookie(HttpServletResponse response, String cookieName) {
-        Cookie cookie = new Cookie(cookieName, null);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-    }
 }

@@ -2,10 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
 <body>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <div class="navigation">
-        <h3 th:text="|${movieName}영화 리뷰 수정|">default Movie Name</h3>
+    <div class="navigation py-4 border-bottom border-4 row">
+        <div class="d-flex justify-content-start align-items-end">
+            <h1 th:text="|${movieName}|">default Movie Name</h1><h5>영화</h5>
+        </div>
+        <div>
+            <h3 th:text="|리뷰 수정|">default Movie Name</h3>
+        </div>
     </div>
     <form th:object="${reviewForm}" method="post">
         <input type="hidden" th:field="*{id}" />

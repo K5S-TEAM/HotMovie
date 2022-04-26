@@ -2,30 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
 <body>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <div class="navigation">
-        <h3 th:text="|${movieName}영화의 리뷰 글쓰기|">default Movie Name</h3>
+    <div class="navigation py-4 border-bottom border-4 row">
+        <div class="d-flex justify-content-start align-items-end">
+            <h1 th:text="|${movieName}|">default Movie Name</h1><h5>영화</h5>
+        </div>
+        <div>
+            <h3 th:text="|리뷰 쓰기|">default Movie Name</h3>
+        </div>
     </div>
-    <form th:object="${reviewForm}" method="post">
+    <form th:object="${reviewForm}" method="post" class="border border-5 border-light rounded form-padding review-write-form">
 
         <div class="form-group">
-            <label for="formScore">평점</label>
-            <select th:field="*{score}" id="formScore" class="form-control" type="number" th:class="${#fields.hasErrors('score')}? 'form-control
-  fieldError' : 'form-control'">
-                <option value="">점수 선택</option>
-                <option th:each="score : ${#numbers.sequence(1,10)}"
-                        th:value="${score}"
-                        th:text="${score}" />
-            </select>
-            <p th:if="${#fields.hasErrors('score')}"
+            <label for="formScore" class="border-bottom"><strong>평점</strong></label>
+            <div th:class="${#fields.hasErrors('score')}? 'fieldError star-rating space-x-4' : 'star-rating space-x-4'" class="star-rating space-x-4 mx-auto" id="formScore" th:field="*{score}">
+                <input type="radio" id="10-stars" name="rating" value="10" th:field="*{score}"/>
+                <label for="10-stars" class="star pr-4">★</label>
+                <input type="radio" id="9-stars" name="rating" value="9" th:field="*{score}"/>
+                <label for="9-stars" class="star">★</label>
+                <input type="radio" id="8-stars" name="rating" value="8" th:field="*{score}"/>
+                <label for="8-stars" class="star">★</label>
+                <input type="radio" id="7-stars" name="rating" value="7" th:field="*{score}"/>
+                <label for="7-stars" class="star">★</label>
+                <input type="radio" id="6-star" name="rating" value="6" th:field="*{score}"/>
+                <label for="6-star" class="star">★</label>
+                <input type="radio" id="5-stars" name="rating" value="5" th:field="*{score}"/>
+                <label for="5-stars" class="star">★</label>
+                <input type="radio" id="4-stars" name="rating" value="4" th:field="*{score}"/>
+                <label for="4-stars" class="star">★</label>
+                <input type="radio" id="3-stars" name="rating" value="3" th:field="*{score}"/>
+                <label for="3-stars" class="star">★</label>
+                <input type="radio" id="2-stars" name="rating" value="2" th:field="*{score}"/>
+                <label for="2-stars" class="star">★</label>
+                <input type="radio" id="1-star" name="rating" value="1" th:field="*{score}"/>
+                <label for="1-star" class="star">★</label>
+            </div>
+            <p th:if="${#fields.hasErrors('score')}" th:class="fieldError2"
                th:errors="*{score}">Incorrect date</p>
         </div>
 
         <div class="form-group">
-            <label th:for="name">코멘트 내용</label>
-            <input type="text" th:field="*{description}" class="form-control"
-                   placeholder="내용을 입력하세요"> </div>
+            <label th:for="name"><strong>코멘트 내용</strong></label>
+            <textarea type="text" th:field="*{description}" class="form-control" rows="3" placeholder="내용을 입력하세요"> </textarea>
+        </div>
         <hr class="my-4">
 
         <div class="row">
