@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,23 @@ public class LoginController {
 
     @Value("${msa.member-login}")
     String loginURL;
+
+    @RequestMapping("/")
+    public String home(){
+        return "hello";
+    }
+
+    @RequestMapping("/reviews")
+    public String home2(){
+        return "hello";
+    }
+
+    @RequestMapping("/review")
+    public String home3(){
+        return "hello";
+    }
+
+
 
     @GetMapping("/reviews/list/logout")
     public String logout(@CookieValue(value = "accessToken", required = false) String accessToken, HttpServletRequest request) {

@@ -25,7 +25,7 @@ public class Login2Controller {
     @Value("${msa.member-login}")
     String loginURL;
 
-    @RequestMapping("/")
+    //@RequestMapping("/")
     public String home(){
         return "home";
     }
@@ -46,7 +46,7 @@ public class Login2Controller {
         return "redirect:/";
     }
 
-    @GetMapping("/")
+    //@GetMapping("/")
     public String homeLoginV2(@CookieValue(value = "accessToken", required = false) String accessToken, Model model) {
 
         Member loginMember = memberService.findMember(accessToken);

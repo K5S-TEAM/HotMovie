@@ -3,12 +3,18 @@ package k5s.reviewdevelop.service;
 import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Review;
 import k5s.reviewdevelop.dto.AuthenticationResponseDto;
+import k5s.reviewdevelop.dto.MemberDto;
 import k5s.reviewdevelop.dto.MemberIdNicknameDto;
+import k5s.reviewdevelop.exception.InvalidAuthenticationException;
+import k5s.reviewdevelop.exception.NoLoginException;
+import k5s.reviewdevelop.exception.NoLoginForHeaderException;
+import k5s.reviewdevelop.exception.NoLoginGoLoginException;
 import k5s.reviewdevelop.repository.MemberRepository;
 import k5s.reviewdevelop.service.api.MemberAPI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,5 +103,7 @@ public class MemberService {
         
         return memberMap;
     }
+
+
 
 }

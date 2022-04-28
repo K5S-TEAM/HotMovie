@@ -5,12 +5,12 @@ import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
 import k5s.reviewdevelop.dto.AuthenticationResponseDto;
 import k5s.reviewdevelop.dto.UpdateReviewDto;
+import k5s.reviewdevelop.exception.NoLoginException;
+import k5s.reviewdevelop.exception.NoLoginForHeaderException;
+import k5s.reviewdevelop.exception.NoLoginGoLoginException;
 import k5s.reviewdevelop.form.ReviewForm;
 import k5s.reviewdevelop.repository.ReviewRepository;
-import k5s.reviewdevelop.service.AuthService;
-import k5s.reviewdevelop.service.MemberService;
-import k5s.reviewdevelop.service.MovieService;
-import k5s.reviewdevelop.service.ReviewService;
+import k5s.reviewdevelop.service.*;
 import k5s.reviewdevelop.service.api.MovieAPI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,22 +38,16 @@ public class ReviewNoMemberController {
     private final ReviewRepository reviewRepository;
     private final MovieAPI movieAPI;
     private final AuthService authService;
+    private final LoginService loginService;
 
     @GetMapping
     public String list(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable("movieId") Long movieId, Model model) {
-
-        AuthenticationResponseDto authenticationResponseDto = authService.requestAuthentication(accessToken);
-        Long memberId = authenticationResponseDto.getId();
-        if (memberId != null) {
-            model.addAttribute("memberId", memberId);
-            model.addAttribute("memberName", authenticationResponseDto.getName());
-        }
+        loginService.findMemberByAuth(accessToken, model);
         String movieName = movieService.findMovieName(movieId);
         if (movieName == null)
         {
             return "movies/reviews/error";
         }
-
         List<Review> reviews = reviewService.findReviews(movieId);
         HashMap<Long, String> nickNames = memberService.findNickNamesInHTML(reviews);
         model.addAttribute("nickNames", nickNames);
@@ -65,14 +59,7 @@ public class ReviewNoMemberController {
 
     @GetMapping("/new")
     public String write(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable("movieId") Long movieId, Model model, ReviewForm form){
-
-        AuthenticationResponseDto authenticationResponseDto = authService.requestAuthentication(accessToken);
-        Long memberId = authenticationResponseDto.getId();
-        if (memberId == null) {
-            return "redirect:/reviews/login";
-        }
-        model.addAttribute("memberId", memberId);
-        model.addAttribute("memberName", authenticationResponseDto.getName());
+        loginService.findHeader(accessToken, model);
         String movieName = movieService.findMovieName(movieId);
         model.addAttribute("movieName", movieName);
         return "movies/reviews/new";
@@ -87,11 +74,7 @@ public class ReviewNoMemberController {
             return "movies/reviews/new";
         }
         AuthenticationResponseDto authenticationResponseDto = authService.requestAuthentication(accessToken);
-        Long memberId = authenticationResponseDto.getId();
-        if (memberId == null) {
-            return "redirect:/reviews/login";
-        }
-        reviewService.register(movieName, memberId, movieId, form.getDescription(), form.getScore());
+        reviewService.register(movieName, authenticationResponseDto.getId(), movieId, form.getDescription(), form.getScore());
         Movie movie = movieService.findOne(movieId);
         movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
         return "redirect:/movies/{movieId}/reviews";
@@ -116,54 +99,37 @@ public class ReviewNoMemberController {
 
 
     @GetMapping("/{reviewId}/edit")
-    public String updateReview(@PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
-        Review review = reviewRepository.findOne(reviewId);
-        form.setId(review.getId());
-        form.setScore(0);
-        form.setDescription(review.getDescription());
-
-        //Movie movie = movieService.findOne(movieId);
-        String movieName = movieService.findMovieName(movieId);
-        //세션이 유지되면 로그인으로 이동
-        model.addAttribute("movieName", movieName);
+    public String updateReview(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
+        loginService.findHeader(accessToken, model);
+        getEditForm(movieId, reviewId, form, model);
         return "movies/reviews/edit";
     }
 
     @GetMapping("/{reviewId}/edit/my")
-    public String updateReviewByMember(@PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
-        Review review = reviewRepository.findOne(reviewId);
-        form.setId(review.getId());
-        form.setScore(0);
-        form.setDescription(review.getDescription());
-        String movieName = movieService.findMovieName(movieId);
-        //세션이 유지되면 로그인으로 이동
-        model.addAttribute("movieName", movieName);
+    public String updateReviewByMember(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
+        loginService.findHeader(accessToken, model);
+        getEditForm(movieId, reviewId, form, model);
         return "member/reviews/edit";
     }
 
     @GetMapping("/{reviewId}/edit/short-my")
     public String updateReviewByMemberInOtherServer(@PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
-        Review review = reviewRepository.findOne(reviewId);
-        form.setId(review.getId());
-        form.setScore(0 );
-        form.setDescription(review.getDescription());
-        String movieName = movieService.findMovieName(movieId);
-        //세션이 유지되면 로그인으로 이동
-        model.addAttribute("movieName", movieName);
+        getEditForm(movieId, reviewId, form, model);
         return "member/reviews/short-edit";
     }
 
     @PostMapping("/{reviewId}/edit")
-    public String requestRegisterReview(@PathVariable Long movieId, @PathVariable Long reviewId, @Valid ReviewForm form, BindingResult bindingResult, Model model) {
-
+    public String requestRegisterReview(@CookieValue(value = "accessToken", required = false) String accessToken,
+                                        @PathVariable Long movieId,
+                                        @PathVariable Long reviewId, @Valid ReviewForm form, BindingResult bindingResult,
+                                        Model model) {
+        loginService.findHeader(accessToken,model);
         Movie movie = movieService.findOne(movieId);
-
         String movieName = movieService.findMovieName(movieId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("movieName", movieName);
             return "movies/reviews/edit";
         }
-
         reviewService.updateReview(new UpdateReviewDto(form));
         movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
         return "redirect:/movies/{movieId}/reviews";
@@ -171,7 +137,6 @@ public class ReviewNoMemberController {
 
     @PostMapping("/{reviewId}/edit/short-my")
     public String requestRegisterReviewByMemberInOtherServer(@PathVariable Long movieId, @PathVariable Long reviewId, @Valid ReviewForm form, BindingResult bindingResult, Model model) {
-
         Movie movie = movieService.findOne(movieId);
         String movieName = movieService.findMovieName(movieId);
         model.addAttribute("movieId", movieId);
@@ -179,15 +144,17 @@ public class ReviewNoMemberController {
             model.addAttribute("movieName", movieName);
             return "member/reviews/short-edit";
         }
-
         reviewService.updateReview(new UpdateReviewDto(form));
         movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
         return "redirect:/reviews/short-my";
     }
 
     @PostMapping("/{reviewId}/edit/my")
-    public String requestRegisterReviewByMember(@PathVariable Long movieId, @PathVariable Long reviewId, @Valid ReviewForm form, BindingResult bindingResult, Model model) {
+    public String requestRegisterReviewByMember(@CookieValue(value = "accessToken", required = false) String accessToken,
+                                                @PathVariable Long movieId, @PathVariable Long reviewId, @Valid ReviewForm form,
+                                                BindingResult bindingResult, Model model) {
 
+        loginService.findHeader(accessToken,model);
         Movie movie = movieService.findOne(movieId);
         String movieName = movieService.findMovieName(movieId);
         model.addAttribute("movieId", movieId);
@@ -195,12 +162,29 @@ public class ReviewNoMemberController {
             model.addAttribute("movieName", movieName);
             return "member/reviews/edit";
         }
-
         reviewService.updateReview(new UpdateReviewDto(form));
         movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
         return "redirect:/reviews/my";
     }
 
+    private void getEditForm(Long movieId, Long reviewId, ReviewForm form, Model model) {
+        Review review = reviewRepository.findOne(reviewId);
+        form.setId(review.getId());
+        form.setScore(0);
+        form.setDescription(review.getDescription());
+        String movieName = movieService.findMovieName(movieId);
+        model.addAttribute("movieName", movieName);
+    }
 
+    @ExceptionHandler
+    public String noLoginForHeaderExceptionHandler(NoLoginForHeaderException e) {
+        return "redirect:/reviews/login";
+    }
+
+
+    @ExceptionHandler
+    public String noLoginExceptionHandler(NoLoginException e) {
+        return "redirect:/reviews/login";
+    }
 
 }

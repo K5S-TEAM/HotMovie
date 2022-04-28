@@ -10,20 +10,23 @@
         <li class="nav-item"><a class="nav-link text-light font-weight-bold" href="http://3.34.45.251/movies/">Movies</a></li>
     </ul>
 
-    <ul class="nav justify-content-end ms-auto">
-        <li th:if="${memberId != null}" class="nav-item">
+    <ul class="nav justify-content-end ms-auto" th:if="${memberName != null}">
+        <li class="nav-item">
             <label class="nav-link text-light fw-bold" th:text="${memberName}+' 님'"></label>
         </li>
-        <li th:if="${memberId != null}" class="nav-item">
+        <li class="nav-item">
             <a class="nav-link text-light font-weight-bold" href="#">My Page</a>
         </li>
-        <li th:if="${memberId != null}" class="nav-item pe-auto">
+        <li class="nav-item pe-auto">
             <a class="nav-link active" aria-current="page" th:onclick="|location.href='@{/reviews/logout}'|" href="#">Logout</a>
         </li>
-        <li th:if="${memberId == null}" class="nav-item pe-auto">
+    </ul>
+    <ul class="nav justify-content-end ms-auto" th:if="${memberName == null}">
+        <li class="nav-item pe-auto">
             <a class="nav-link active" aria-current="page" th:onclick="|location.href='@{/reviews/login}'|" href="#">Login</a>
         </li>
     </ul>
+
 </nav>
 
 <nav class="navbar navbar-expand-md navbar-light bg-dark" th:fragment="bodyHeader-list">
@@ -36,17 +39,19 @@
         <li class="nav-item"><a class="nav-link text-light font-weight-bold" href="http://3.34.45.251/movies/">Movies</a></li>
     </ul>
 
-    <ul class="nav justify-content-end ms-auto">
-        <li th:if="${memberId != null}" class="nav-item">
+    <ul class="nav justify-content-end ms-auto" th:if="${memberName != null}">
+        <li class="nav-item">
             <label class="nav-link text-light fw-bold" th:text="${memberName}+' 님'"></label>
         </li>
-        <li th:if="${memberId != null}" class="nav-item">
+        <li class="nav-item">
             <a class="nav-link text-light font-weight-bold" href="#">My Page</a>
         </li>
-        <li th:if="${memberId != null}" class="nav-item pe-auto">
+        <li class="nav-item pe-auto">
             <a class="nav-link active" aria-current="page" th:onclick="|location.href='@{/reviews/list/logout}'|" href="#">Logout</a>
         </li>
-        <li th:if="${memberId == null}" class="nav-item pe-auto">
+    </ul>
+    <ul class="nav justify-content-end ms-auto" th:if="${memberName == null}">
+        <li class="nav-item pe-auto">
             <a class="nav-link active" aria-current="page" th:onclick="|location.href='@{/reviews/login}'|" href="#">Login</a>
         </li>
     </ul>

@@ -16,14 +16,12 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AuthService {
 
     @Value("${msa.auth}")
     String authServerUrl;
 
 
-    @Transactional
     public AuthenticationResponseDto requestAuthentication(String accessToken) {
 
         WebClient webClient = WebClient.builder().baseUrl(authServerUrl).build();
@@ -42,7 +40,6 @@ public class AuthService {
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new InvalidAuthenticationException("인증 정보가 존재하지 않습니다.")))
                 .bodyToMono(AuthenticationResponseDto.class)
-                .onErrorReturn(new AuthenticationResponseDto(null))
                 .block();
 
 
@@ -50,7 +47,6 @@ public class AuthService {
         return result;
     }
 
-    @Transactional
     public void requestLogout(String accessToken) {
 
         WebClient webClient = WebClient.builder().baseUrl(authServerUrl).build();
