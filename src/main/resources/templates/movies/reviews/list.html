@@ -4,7 +4,7 @@
 <body>
 <div th:replace="fragments/bodyHeader :: bodyHeader-list"/>
 <div class="container">
-    <header class="navigation py-4 border-bottom border-5 row">
+    <header class="navigation py-4 border-bottom border-5 border-dark row">
         <div class="d-flex justify-content-start align-items-end">
             <h1 th:text="|${movieName}|">default Movie Name</h1><h5>영화</h5>
         </div>
@@ -27,7 +27,7 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title" th:text="${review.description}">Success card title</h5>
-                <p class="card-text" th:text="${nickNames.get(review.memberId)}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text" th:text="|- ${nickNames.get(review.memberId)}|">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 <div class="text-end">
                     <a th:if="${memberId} == ${review.memberId}" href="#" th:href="@{/movies/{movieId}/reviews/{reviewId}/edit (movieId=${movieId}, reviewId=${review.id})}" class="btn btn-primary" role="button">수정</a>
                     <a th:if="${memberId} == ${review.memberId}" href="#"
