@@ -27,17 +27,17 @@ public class LoginController {
 
     @RequestMapping("/")
     public String home(){
-        return "hello";
+        return "root";
     }
 
     @RequestMapping("/reviews")
     public String home2(){
-        return "hello";
+        return "reviewsHome";
     }
 
     @RequestMapping("/review")
     public String home3(){
-        return "hello";
+        return "reviewHome";
     }
 
 
