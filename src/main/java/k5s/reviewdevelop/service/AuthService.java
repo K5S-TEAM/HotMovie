@@ -28,8 +28,7 @@ public class AuthService {
 
         if (accessToken == null)
         {
-            AuthenticationResponseDto errorDto = new AuthenticationResponseDto(-1L, "오류");
-            return errorDto;
+            throw new InvalidAuthenticationException("토큰 값이 없습니다");
         }
 
         AuthenticationRequestDto dto = new AuthenticationRequestDto(accessToken);
