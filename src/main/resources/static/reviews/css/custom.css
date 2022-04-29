@@ -134,7 +134,7 @@ header h1{
 }
 
 .short-edit{
-    padding: 20px 100px;
+    padding: 5px 100px;
 }
 
 .short-edit h1{
@@ -146,5 +146,5 @@ header h1{
 }
 
 #shortBody{
-    padding: 0% 30%;
+    padding: 10px 10%;
 }

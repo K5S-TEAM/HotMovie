@@ -3,7 +3,8 @@
 <head th:replace="fragments/header :: header" />
 <body id="shortBody">
 <div class="container">
-    <div class="row row-cols-4 row-cols-md-2 g-4 review-card-container">
+    <h1>My review</h1>
+    <div class="row row-cols-4 row-cols-md-3 g-4 review-card-container">
         <div class="col" th:each="review : ${reviews}">
             <div style="width: 75%" class="align-self-end">
                 <h3 th:text="${review.movie.name}"></h3>
