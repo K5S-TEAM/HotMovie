@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div class="card-header bg-transparent" th:fragment="score">
+<div class="card-header bg-transparent border-secondary" th:fragment="score">
   <div class="star-ratings">
     <div class="star-ratings-fill space-x-2 text-lg" th:style="|width: ${review.score*8.3}%|">
       <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
@@ -11,6 +11,6 @@
   </div>
 </div>
 
-<div class="card-footer bg-transparent text-end" th:fragment="date">
+<div class="card-footer bg-transparent text-end border-secondary" th:fragment="date">
   <small class="text-muted" th:text="${review.dateTime}">Last updated 3 mins ago</small>
 </div>
