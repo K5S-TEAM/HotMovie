@@ -57,7 +57,7 @@
   justify-content: flex-end;
   padding: 0 0.2em;
   text-align: center;
-  width: 50%
+  width: 67%
 }
 
 .star-rating input {
@@ -145,3 +145,6 @@ header h1{
         color: #FFB000;
 }
 
+#shortBody{
+    padding: 0% 30%;
+}

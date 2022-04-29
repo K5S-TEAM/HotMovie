@@ -1,24 +1,26 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
-<body>
+<body id="shortBody">
 <div class="container">
-    <div class="row row-cols-1 row-cols-md-3 g-4 review-card-container" th:each="review : ${reviews}">
-        <div style="width: 75%" class="align-self-end">
-            <h3 th:text="${review.movie.name}"></h3>
-        </div>
-        <div class="card w-75 mb-3" style="margin-top: 0px">
-            <div th:replace="fragments/list :: score"/>
-            <div class="card-body">
-                <h5 class="card-title" th:text="${review.description}">Success card title</h5>
-                <div class="text-end">
-                    <a href="#" th:href="@{/movies/{movieId}/reviews/{reviewId}/edit/short-my (movieId=${review.movie.id}, reviewId=${review.id})}" class="btn btn-dark" role="button">수정</a>
-                    <a href="#"
-                       th:href="'javascript:cancel('+${review.movie.id}+', '+${review.id}+')'"
-                       class="btn btn-danger">삭제</a>
-                </div>
+    <div class="row row-cols-4 row-cols-md-2 g-4 review-card-container">
+        <div class="col" th:each="review : ${reviews}">
+            <div style="width: 75%" class="align-self-end">
+                <h3 th:text="${review.movie.name}"></h3>
             </div>
-            <div th:replace="fragments/list :: date"/>
+            <div class="card" style="margin-top: 0px">
+                <div th:replace="fragments/list :: score"/>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${review.description}">Success card title</h5>
+                    <div class="text-end">
+                        <a href="#" th:href="@{/movies/{movieId}/reviews/{reviewId}/edit/short-my (movieId=${review.movie.id}, reviewId=${review.id})}" class="btn btn-dark" role="button">수정</a>
+                        <a href="#"
+                           th:href="'javascript:cancel('+${review.movie.id}+', '+${review.id}+')'"
+                           class="btn btn-danger">삭제</a>
+                    </div>
+                </div>
+                <div th:replace="fragments/list :: date"/>
+            </div>
         </div>
     </div>
 </div> <!-- /container -->
