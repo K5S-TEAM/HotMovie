@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Sansita:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800;1,900&display=swap');
+
 .navigation{
     display: flex;
     justify-content: space-between;
@@ -97,28 +99,49 @@
 
 .navigation{
     margin: 20px 0px;
+    padding: 120px;
+
 }
 
 .review-write-form{
     margin: 30px;
 }
 
-
 body{
-    background-color: #333333;
+    font-family: "Song Myung";
+
 }
 
-.container{
-    background-color: #444444;
-    border: 2px transparent;
-    border-radius: 10px;
-    width: 60%;
+.navbar{
+    font-family: var(--bs-body-font-family);
+}
+
+header h1{
+    font-family: "Song Myung", cursive;
+    font-size: 70px;
+    font-weight: normal;
+    text-shadow: 0 2px 1px #000;
+    color: #FFB000;
+}
+
+
+.write{
+    height: 60%;
 }
 
 .card{
-    background-color: #555555;
+    border-color: #6c757d;
 }
 
-.container{
-    width
+.short-edit{
+    padding: 20px 100px;
 }
+
+.short-edit h1{
+    font-family: "Song Myung", cursive;
+        font-size: 40px;
+        font-weight: normal;
+        text-shadow: 0 2px 1px #000;
+        color: #FFB000;
+}
+

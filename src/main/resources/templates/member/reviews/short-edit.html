@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
 <body>
-<div class="container">
-    <div class="navigation">
-        <h3 th:text="|${movieName}영화 리뷰 수정|">default Movie Name</h3>
+<div class="navigation short-edit border-bottom border-dark">
+    <div class="d-flex justify-content-start align-items-end">
+        <h1 th:text="|${movieName}|">default Movie Name</h1><h5> 리뷰 수정</h5>
     </div>
+</div>
+<div class="container">
     <form th:object="${reviewForm}" method="post">
         <input type="hidden" th:field="*{id}" />
         <div th:replace="fragments/form :: formStar"/>
@@ -22,7 +24,7 @@
             </div>
 
             <div class="col">
-                <button class="w-100 btn btn-primary btn-lg" type="submit">리뷰 등록</button>
+                <button class="w-100 btn btn-warning btn-lg" type="submit">리뷰 등록</button>
             </div>
 
         </div>
