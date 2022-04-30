@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div class="form-group" th:fragment="formStar">
     <label for="formScore" class="border-bottom"><strong>평점</strong></label>
-    <div th:class="${#fields.hasErrors('score')}? 'fieldError star-rating space-x-4' : 'star-rating space-x-4'" class="star-rating space-x-4 mx-auto" id="formScore" th:field="*{score}">
+    <div th:class="${#fields.hasErrors('score')}? 'fieldError star-ratings-form space-x-4' : 'star-ratings-form space-x-4'" class="star-ratings-form space-x-4 mx-auto" id="formScore" th:field="*{score}">
         <input type="radio" id="10-stars" name="rating" value="10" th:field="*{score}"/>
         <label for="10-stars" class="star pr-4">★</label>
         <input type="radio" id="9-stars" name="rating" value="9" th:field="*{score}"/>
@@ -24,6 +24,6 @@
         <input type="radio" id="1-star" name="rating" value="1" th:field="*{score}"/>
         <label for="1-star" class="star">★</label>
     </div>
-    <p th:if="${#fields.hasErrors('score')}" th:class="fieldError2"
+    <p th:if="${#fields.hasErrors('score')}" th:class="fieldError" style="border: none"
        th:errors="*{score}">Incorrect date</p>
 </div>

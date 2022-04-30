@@ -15,11 +15,11 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 review-card-container" th:each="review : ${reviews}">
         <div class="card w-75 mb-3">
             <div class="card-header bg-transparent border-secondary">
-                <div class="star-ratings">
-                    <div class="star-ratings-fill space-x-2 text-lg" th:style="|width: ${review.score*8.3}%|">
+                <div class="star-ratings-list">
+                    <div class="star-ratings-list-fill space-x-2 text-lg" th:style="|width: ${review.score*8.3}%|">
                         <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                     </div>
-                    <div class="star-ratings-base space-x-2 text-lg">
+                    <div class="star-ratings-list-base space-x-2 text-lg">
                         <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span><span class="score-text" th:text="|  ${review.score}|"></span>
                     </div>
                 </div>

@@ -1,26 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Sansita:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800;1,900&display=swap');
+/* Global */
+body{
+    font-family: "Song Myung";
+}
+
+.navbar{
+    font-family: var(--bs-body-font-family);
+}
 
 .navigation{
     display: flex;
     justify-content: space-between;
+    margin: 20px 0px;
+    padding: 120px;
 }
+
+header h1{
+    font-family: "Song Myung", cursive;
+    font-size: 70px;
+    font-weight: normal;
+    text-shadow: 0 2px 1px #000;
+    color: #FFB000;
+}
+
+
+/* form */
 .fieldError {
     border: 1.3mm solid rgba(255, 0, 0, 0.9);
     color: red;
 }
 
-.fieldError2 {
-    color: red;
-}
-
-
-
 .form-padding{
     padding: 50px;
 }
 
+.form-group{
+    margin-bottom: 20px;
+}
 
-.star-ratings {
+.review-write-form{
+    margin: 30px;
+}
+
+
+.star-ratings-form {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  justify-content: flex-end;
+  padding: 0 0.2em;
+  text-align: center;
+  width: 67%
+}
+
+.star-ratings-form input {
+  display: none;
+}
+
+.star-ratings-form label {
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 2.3px;
+  -webkit-text-stroke-color: #2b2a29;
+  cursor: pointer;
+}
+
+.star-ratings-form :checked ~ label {
+  -webkit-text-fill-color: gold;
+}
+
+.star-ratings-form label:hover,
+.star-ratings-form label:hover ~ label {
+  -webkit-text-fill-color: #fff58c;
+}
+
+
+
+/* List */
+.star-ratings-list {
   color: #aaa9a9;
   position: relative;
   unicode-bidi: bidi-override;
@@ -30,7 +86,7 @@
   -webkit-text-stroke-color: #2b2a29;
 }
 
-.star-ratings-fill {
+.star-ratings-list-fill {
   color: #fff58c;
   padding: 0;
   position: absolute;
@@ -42,47 +98,9 @@
   -webkit-text-fill-color: gold;
 }
 
-.star-ratings-base {
+.star-ratings-list-base {
   z-index: 0;
   padding: 0;
-}
-
-
-
-.star-rating {
-  display: flex;
-  flex-direction: row-reverse;
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-  justify-content: flex-end;
-  padding: 0 0.2em;
-  text-align: center;
-  width: 67%
-}
-
-.star-rating input {
-  display: none;
-}
-
-.star-rating label {
-  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
-  -webkit-text-stroke-width: 2.3px;
-  -webkit-text-stroke-color: #2b2a29;
-  cursor: pointer;
-}
-
-.star-rating :checked ~ label {
-  -webkit-text-fill-color: gold;
-}
-
-.star-rating label:hover,
-.star-rating label:hover ~ label {
-  -webkit-text-fill-color: #fff58c;
-}
-
-
-.form-group{
-    margin-bottom: 20px;
 }
 
 .score-text{
@@ -97,34 +115,6 @@
     box-shadow: 0 2px 3px 0 rgb(155 168 174 / 8%), 0 0 2px 0 rgb(136 148 158 / 30%);
 }
 
-.navigation{
-    margin: 20px 0px;
-    padding: 120px;
-
-}
-
-.review-write-form{
-    margin: 30px;
-}
-
-body{
-    font-family: "Song Myung";
-
-}
-
-.navbar{
-    font-family: var(--bs-body-font-family);
-}
-
-header h1{
-    font-family: "Song Myung", cursive;
-    font-size: 70px;
-    font-weight: normal;
-    text-shadow: 0 2px 1px #000;
-    color: #FFB000;
-}
-
-
 .write{
     height: 60%;
 }
@@ -133,6 +123,7 @@ header h1{
     border-color: #6c757d;
 }
 
+/* short */
 .short-edit{
     padding: 5px 10px;
 }
