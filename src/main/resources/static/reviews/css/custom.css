@@ -50,7 +50,7 @@ header h1{
   justify-content: flex-end;
   padding: 0 0.2em;
   text-align: center;
-  width: 50%
+  width: 67%
 }
 
 .star-ratings-form input {
@@ -125,7 +125,7 @@ header h1{
 
 /* short */
 .short-edit{
-    padding: 20px 100px;
+    padding: 5px 10px;
 }
 
 .short-edit h1{
@@ -136,3 +136,6 @@ header h1{
         color: #FFB000;
 }
 
+#shortBody{
+    padding: 10px 10%;
+}

@@ -37,3 +37,5 @@ out/
 .vscode/
 
 src/main/resources/application.yml
+Dockerfile
+src/main/resources/sql/reviews.sql
