@@ -1,13 +1,11 @@
 package k5s.reviewdevelop.controller;
 
-import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
 import k5s.reviewdevelop.dto.AuthenticationResponseDto;
 import k5s.reviewdevelop.dto.UpdateReviewDto;
 import k5s.reviewdevelop.exception.NoLoginException;
 import k5s.reviewdevelop.exception.NoLoginForHeaderException;
-import k5s.reviewdevelop.exception.NoLoginGoLoginException;
 import k5s.reviewdevelop.form.ReviewForm;
 import k5s.reviewdevelop.repository.ReviewRepository;
 import k5s.reviewdevelop.service.*;
@@ -109,7 +107,7 @@ public class ReviewNoMemberController {
     public String updateReviewByMember(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable Long movieId, @PathVariable Long reviewId, ReviewForm form, Model model, HttpServletRequest request) {
         loginService.findHeader(accessToken, model);
         getEditForm(movieId, reviewId, form, model);
-        return "member/reviews/edit";
+        return "movies/reviews/edit";
     }
 
     @GetMapping("/{reviewId}/edit/short-my")
@@ -160,7 +158,7 @@ public class ReviewNoMemberController {
         model.addAttribute("movieId", movieId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("movieName", movieName);
-            return "member/reviews/edit";
+            return "movies/reviews/edit";
         }
         reviewService.updateReview(new UpdateReviewDto(form));
         movieAPI.responseMovieAverageScore(movieId, movie.getAverageScore());
