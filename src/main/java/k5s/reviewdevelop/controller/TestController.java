@@ -45,5 +45,20 @@ public class TestController {
         return "member/reviews/list";
     }
 
+    @RequestMapping("/")
+    public String home(){
+        return "root";
+    }
+
+    @RequestMapping("/reviews")
+    public String home2(){
+        return "reviewsHome";
+    }
+
+    @RequestMapping("/review")
+    public String home3(){
+        return "reviewHome";
+    }
+
 
 }

@@ -6,7 +6,6 @@ import k5s.reviewdevelop.exception.NoLoginForHeaderException;
 import k5s.reviewdevelop.exception.NoLoginGoLoginException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 @Service

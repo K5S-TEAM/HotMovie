@@ -4,6 +4,7 @@ import k5s.reviewdevelop.dto.MovieRequestDto;
 import k5s.reviewdevelop.dto.MovieResponseDto;
 import k5s.reviewdevelop.dto.ScoreUpdateRequestDto;
 import k5s.reviewdevelop.exception.InvalidAuthenticationException;
+import k5s.reviewdevelop.exception.NoMovieException;
 import lombok.RequiredArgsConstructor;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +32,7 @@ public class MovieAPI {
 
         if (movieId == null)
         {
-            return null;
+            throw new NoMovieException("없는 영화입니다");
         }
 
         MovieRequestDto dto = new MovieRequestDto(movieId);
@@ -40,13 +41,12 @@ public class MovieAPI {
                 .uri("/movies")
                 .body(Mono.just(dto), MovieRequestDto.class)
                 .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new InvalidAuthenticationException("영화오류")))
+                .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new NoMovieException("영화오류")))
                 .bodyToMono(MovieResponseDto.class)
-                .onErrorReturn(new MovieResponseDto("없는영화입니다"))
                 .block();
 
         if (result.getMovieName() == null) {
-            throw new InvalidAuthenticationException("삭제된 영화입니다");
+            throw new NoMovieException("삭제된 영화입니다");
         }
 
         return result.getMovieName();
