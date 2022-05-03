@@ -1,4 +1,4 @@
-package k5s.reviewdevelop.service;
+package k5s.reviewdevelop.api;
 
 import k5s.reviewdevelop.dto.AuthenticationRequestDto;
 import k5s.reviewdevelop.dto.AuthenticationResponseDto;
@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthAPI {
 
     @Value("${msa.auth}")
     String authServerUrl;
@@ -40,8 +40,6 @@ public class AuthService {
                 .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new InvalidAuthenticationException("인증 정보가 존재하지 않습니다.")))
                 .bodyToMono(AuthenticationResponseDto.class)
                 .block();
-
-
 
         return result;
     }

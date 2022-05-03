@@ -1,4 +1,4 @@
-package k5s.reviewdevelop.service.api;
+package k5s.reviewdevelop.api;
 
 import k5s.reviewdevelop.dto.MovieRequestDto;
 import k5s.reviewdevelop.dto.MovieResponseDto;
@@ -53,7 +53,7 @@ public class MovieAPI {
     }
 
     @Transactional
-    public String responseMovieAverageScore(Long movieId, double averageScore) {
+    public String sendMovieAverageScore(Long movieId, double averageScore) {
 
 
         WebClient webClient = WebClient.builder().baseUrl(movieServerUrl).build();

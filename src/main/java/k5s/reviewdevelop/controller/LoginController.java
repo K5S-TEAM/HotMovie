@@ -1,6 +1,6 @@
 package k5s.reviewdevelop.controller;
 
-import k5s.reviewdevelop.service.AuthService;
+import k5s.reviewdevelop.api.AuthAPI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,21 +17,21 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/reviews")
 public class LoginController {
 
-    private final AuthService authService;
+    private final AuthAPI authAPI;
 
     @Value("${msa.member-login}")
     String loginURL;
 
     @GetMapping("/list/logout")
     public String logout(@CookieValue(value = "accessToken", required = false) String accessToken, HttpServletRequest request) {
-        authService.requestLogout(accessToken);
+        authAPI.requestLogout(accessToken);
         String referer = request.getHeader("Referer");
         return "redirect:"+ referer;
     }
 
     @GetMapping("/logout")
     public String logoutToLoginPage(@CookieValue(value = "accessToken", required = false) String accessToken) {
-        authService.requestLogout(accessToken);
+        authAPI.requestLogout(accessToken);
         return "redirect:"+loginURL;
     }
 

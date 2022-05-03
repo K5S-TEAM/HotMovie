@@ -1,4 +1,4 @@
-package k5s.reviewdevelop.service.api;
+package k5s.reviewdevelop.api;
 
 import k5s.reviewdevelop.dto.*;
 import k5s.reviewdevelop.exception.InvalidAuthenticationException;

@@ -1,8 +1,7 @@
 package k5s.reviewdevelop.controller;
 
-import k5s.reviewdevelop.domain.Member;
-import k5s.reviewdevelop.exception.InvalidAuthenticationException;
-import k5s.reviewdevelop.service.AuthService;
+import k5s.reviewdevelop.dto.MemberDto;
+import k5s.reviewdevelop.api.AuthAPI;
 import k5s.reviewdevelop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Login2Controller {
 
     private final MemberService memberService;
-    private final AuthService authService;
+    private final AuthAPI authAPI;
 
     @Value("${msa.member-login}")
     String loginURL;
@@ -41,7 +40,7 @@ public class Login2Controller {
     public String logout(@CookieValue(value = "accessToken", required = false) String accessToken, HttpServletResponse response) {
         if (accessToken != null)
         {
-            //authService.logout(accessToken);
+            //authAPI.logout(accessToken);
         }
         return "redirect:/";
     }
@@ -49,7 +48,7 @@ public class Login2Controller {
     //@GetMapping("/")
     public String homeLoginV2(@CookieValue(value = "accessToken", required = false) String accessToken, Model model) {
 
-        Member loginMember = memberService.findMember(accessToken);
+        MemberDto loginMember = memberService.findMember(accessToken);
 
         if (loginMember == null) {
             return "home";

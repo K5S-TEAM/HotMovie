@@ -25,9 +25,9 @@ public class ReviewService {
     /**
      * 멤버찾기
      */
-    public Long findMovieId(Long reviewId) {
+    public Movie findMovie(Long reviewId) {
         Review review = reviewRepository.findOne(reviewId);
-        return review.getMovie().getId();
+        return review.getMovie();
     }
 
     /**
