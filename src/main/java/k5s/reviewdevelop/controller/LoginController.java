@@ -22,16 +22,13 @@ public class LoginController {
     @Value("${msa.member-login}")
     String loginURL;
 
-    @GetMapping("/list/logout")
-    public String logout(@CookieValue(value = "accessToken", required = false) String accessToken, HttpServletRequest request) {
+    @GetMapping("/logout")
+    public String logoutToLoginPage(@CookieValue(value = "accessToken", required = false) String accessToken, HttpServletRequest request) {
         authAPI.requestLogout(accessToken);
         String referer = request.getHeader("Referer");
-        return "redirect:"+ referer;
-    }
-
-    @GetMapping("/logout")
-    public String logoutToLoginPage(@CookieValue(value = "accessToken", required = false) String accessToken) {
-        authAPI.requestLogout(accessToken);
+        if(referer.matches(".+" + "/movies/"+"[0-9]+" + "/reviews")){
+            return "redirect:"+ referer;
+        }
         return "redirect:"+loginURL;
     }
 

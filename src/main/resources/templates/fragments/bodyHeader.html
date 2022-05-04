@@ -35,39 +35,3 @@
     </ul>
 
 </nav>
-
-<nav class="navbar navbar-expand-md navbar-light bg-dark" th:fragment="bodyHeader-list">
-
-    <a  href="https://k5smovie.ga/" style="text-decoration: none;">
-        <ul class="navbar-nav" style="align-items: center;">
-            <img src="https://k5s-member-convenience.s3.ap-northeast-2.amazonaws.com/common/k5s-icon.png" width="40" height="40" style="border: 0;" class="mx-2">
-            <label class="text-light fw-bold me-3" style="font-size: 2rem;">k5sMovie</label>
-        </ul>
-    </a>
-
-    <ul class="navbar-nav me-auto">
-        <li class="nav-item" >
-            <a class="nav-link text-light font-weight-bold" href="/movies/" style="font-size: 1.5rem;border-left: solid 0.1rem #fff;">Movies</a>
-        </li>
-    </ul>
-
-    <ul class="nav justify-content-end ms-auto" th:if="${memberName != null}">
-        <li class="nav-item">
-            <label class="nav-link text-light fw-bold" style="font-size: 1.2rem;border-left: solid 0.1rem #fff;" th:text="${memberName}+' 님'"></label>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-light font-weight-bold" href="https://k5smovie.ga/member/my-page" style="font-size: 1.2rem;
-    border-left: solid 0.1rem #fff;">My Page</a>
-        </li>
-        <li class="nav-item pe-auto">
-            <a class="nav-link active" aria-current="page" style="font-size: 1.2rem;
-    border-left: solid 0.1rem #fff;" th:onclick="|location.href='@{/reviews/list/logout}'|" href="#">Logout</a>
-        </li>
-    </ul>
-    <ul class="nav justify-content-end ms-auto" th:if="${memberName == null}">
-        <li class="nav-item pe-auto">
-            <a class="nav-link active" style="font-size: 1.2rem;
-    border-left: solid 0.1rem #fff;" aria-current="page" th:onclick="|location.href='@{/reviews/login}'|" href="#">Login</a>
-        </li>
-    </ul>
-</nav>
