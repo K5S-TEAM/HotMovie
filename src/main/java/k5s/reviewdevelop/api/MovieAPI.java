@@ -5,6 +5,7 @@ import k5s.reviewdevelop.dto.MovieResponseDto;
 import k5s.reviewdevelop.dto.ScoreUpdateRequestDto;
 import k5s.reviewdevelop.exception.InvalidAuthenticationException;
 import k5s.reviewdevelop.exception.NoMovieException;
+import k5s.reviewdevelop.service.WebClientService;
 import lombok.RequiredArgsConstructor;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,14 +22,10 @@ import reactor.core.publisher.Mono;
 @Transactional
 public class MovieAPI {
 
-    @Value("${msa.movie}")
-    String movieServerUrl;
+    private final WebClientService webClientService;
 
     @Transactional
     public String requestMovieName(Long movieId) {
-
-
-        WebClient webClient = WebClient.builder().baseUrl(movieServerUrl).build();
 
         if (movieId == null)
         {
@@ -37,7 +34,7 @@ public class MovieAPI {
 
         MovieRequestDto dto = new MovieRequestDto(movieId);
 
-        MovieResponseDto result = webClient.post()
+        MovieResponseDto result = webClientService.setMovieWebClient().post()
                 .uri("/movies")
                 .body(Mono.just(dto), MovieRequestDto.class)
                 .retrieve()
@@ -56,11 +53,9 @@ public class MovieAPI {
     public String sendMovieAverageScore(Long movieId, double averageScore) {
 
 
-        WebClient webClient = WebClient.builder().baseUrl(movieServerUrl).build();
-
         ScoreUpdateRequestDto dto = new ScoreUpdateRequestDto(averageScore);
 
-        String result = webClient.patch().uri("/movies/{movieId}", movieId)
+        String result = webClientService.setMovieWebClient().patch().uri("/movies/{movieId}", movieId)
                 .body(Mono.just(dto), ScoreUpdateRequestDto.class)
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new InvalidAuthenticationException("영화서버 오류")))

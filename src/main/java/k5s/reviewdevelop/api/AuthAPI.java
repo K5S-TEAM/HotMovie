@@ -5,6 +5,7 @@ import k5s.reviewdevelop.dto.AuthenticationResponseDto;
 import k5s.reviewdevelop.dto.MovieRequestDto;
 import k5s.reviewdevelop.dto.MovieResponseDto;
 import k5s.reviewdevelop.exception.InvalidAuthenticationException;
+import k5s.reviewdevelop.service.WebClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,13 +19,9 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class AuthAPI {
 
-    @Value("${msa.auth}")
-    String authServerUrl;
-
+    private final WebClientService webClientService;
 
     public AuthenticationResponseDto requestAuthentication(String accessToken) {
-
-        WebClient webClient = WebClient.builder().baseUrl(authServerUrl).build();
 
         if (accessToken == null)
         {
@@ -33,7 +30,7 @@ public class AuthAPI {
 
         AuthenticationRequestDto dto = new AuthenticationRequestDto(accessToken);
 
-        AuthenticationResponseDto result = webClient.post()
+        AuthenticationResponseDto result = webClientService.setAuthWebClient().post()
                 .uri("/auth/access-token-valid")
                 .body(Mono.just(dto), AuthenticationRequestDto.class)
                 .retrieve()
@@ -46,10 +43,9 @@ public class AuthAPI {
 
     public void requestLogout(String accessToken) {
 
-        WebClient webClient = WebClient.builder().baseUrl(authServerUrl).build();
         AuthenticationRequestDto dto = new AuthenticationRequestDto(accessToken);
 
-        AuthenticationResponseDto result = webClient.post()
+        AuthenticationResponseDto result = webClientService.setAuthWebClient().post()
                 .uri("/auth/logout")
                 .body(Mono.just(dto), AuthenticationRequestDto.class)
                 .retrieve()

@@ -2,6 +2,7 @@ package k5s.reviewdevelop.api;
 
 import k5s.reviewdevelop.dto.*;
 import k5s.reviewdevelop.exception.InvalidAuthenticationException;
+import k5s.reviewdevelop.service.WebClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -17,14 +18,10 @@ import java.util.List;
 @Transactional
 public class MemberAPI {
 
-    @Value("${msa.member}")
-    String memberServerUrl;
+    private final WebClientService webClientService;
 
     @Transactional
     public List<MemberIdNicknameDto> requestNicknames(List<Long> ids) {
-
-
-        WebClient webClient = WebClient.builder().baseUrl(memberServerUrl).build();
 
         if (ids == null)
         {
@@ -33,7 +30,7 @@ public class MemberAPI {
 
         MemberNicknamesRequestDto dto = new MemberNicknamesRequestDto(ids);
 
-        MemberNicknamesResponseDto result = webClient.post()
+        MemberNicknamesResponseDto result = webClientService.setMemberWebClient().post()
                 .uri("/member/nicknames")
                 .body(Mono.just(dto), MemberNicknamesRequestDto.class)
                 .retrieve()
