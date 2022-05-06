@@ -27,15 +27,14 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/movies/{movieId}/reviews")
-public class ReviewNoMemberController {
+public class ReviewListController {
 
     private final ReviewService reviewService;
     private final MovieService movieService;
     private final MemberService memberService;
-    private final ReviewRepository reviewRepository;
     private final MovieAPI movieAPI;
     private final AuthAPI authAPI;
-    private final LoginService loginService;
+    private final HeaderService headerService;
 
     @GetMapping
     public String list(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable("movieId") Long movieId, Model model) {
@@ -54,7 +53,7 @@ public class ReviewNoMemberController {
 
     @GetMapping("/new")
     public String write(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable("movieId") Long movieId, Model model, ReviewForm form){
-        loginService.loadHeader(accessToken, model);
+        headerService.loadHeader(accessToken, model);
         String movieName = movieService.findMovieName(movieId);
         model.addAttribute("movieName", movieName);
         return "movies/reviews/new";

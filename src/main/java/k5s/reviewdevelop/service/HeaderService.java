@@ -10,10 +10,9 @@ import org.springframework.ui.Model;
 
 @Service
 @RequiredArgsConstructor
-public class LoginService {
+public class HeaderService {
 
     private final AuthAPI authAPI;
-
 
     public Long loadHeader(String accessToken, Model model){
         try {

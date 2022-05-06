@@ -49,7 +49,14 @@ public class MovieService {
      * 영화 이름요청
      */
     public String findMovieName(Long movieId){
-        return movieAPI.requestMovieName(movieId);
+        if (findOne(movieId)!=null){
+            System.out.println("영화가 있습니다");
+            return findOne(movieId).getName();
+        }
+        System.out.println("영화가없습니다");
+        String movieName = movieAPI.requestMovieName(movieId);
+        register(movieName, movieId);
+        return movieName;
     }
 
 }

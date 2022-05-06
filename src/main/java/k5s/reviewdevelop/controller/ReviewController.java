@@ -29,11 +29,11 @@ public class ReviewController {
     private final MovieService movieService;
     private final ReviewRepository reviewRepository;
     private final MovieAPI movieAPI;
-    private final LoginService loginService;
+    private final HeaderService headerService;
 
     @GetMapping("/edit")
     public String updateReview(@CookieValue(value = "accessToken", required = false) String accessToken, @PathVariable Long reviewId, ReviewForm form, Model model) {
-        loginService.loadHeader(accessToken, model);
+        headerService.loadHeader(accessToken, model);
         getEditForm(reviewId, form, model);
         return "movies/reviews/edit";
     }
@@ -42,7 +42,7 @@ public class ReviewController {
     public String requestRegisterReview(@CookieValue(value = "accessToken", required = false) String accessToken,
                                         @PathVariable Long reviewId, @Valid ReviewForm form, BindingResult bindingResult,
                                         Model model) {
-        loginService.loadHeader(accessToken,model);
+        headerService.loadHeader(accessToken,model);
         Movie movie = reviewService.findMovie(reviewId);
         model.addAttribute("movieId", movie.getId());
         if (bindingResult.hasErrors()) {
