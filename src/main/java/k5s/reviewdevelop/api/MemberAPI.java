@@ -2,6 +2,7 @@ package k5s.reviewdevelop.api;
 
 import k5s.reviewdevelop.dto.*;
 import k5s.reviewdevelop.exception.InvalidAuthenticationException;
+import k5s.reviewdevelop.exception.NoNicknamesException;
 import k5s.reviewdevelop.service.WebClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +35,7 @@ public class MemberAPI {
                 .uri("/member/nicknames")
                 .body(Mono.just(dto), MemberNicknamesRequestDto.class)
                 .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new InvalidAuthenticationException("HTTP 4XX 오류")))
+                .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new NoNicknamesException("HTTP 4XX 오류")))
                 .bodyToMono(MemberNicknamesResponseDto.class)
                 .onErrorReturn(null)
                 .block();

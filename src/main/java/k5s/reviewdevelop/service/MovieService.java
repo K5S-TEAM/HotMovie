@@ -50,11 +50,11 @@ public class MovieService {
      */
     public String findMovieName(Long movieId){
         if (findOne(movieId)!=null){
-            System.out.println("영화가 있습니다");
             return findOne(movieId).getName();
         }
-        System.out.println("영화가없습니다");
+        //영화가없을시 NoMovieException 반환
         String movieName = movieAPI.requestMovieName(movieId);
+
         register(movieName, movieId);
         return movieName;
     }

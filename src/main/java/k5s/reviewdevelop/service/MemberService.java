@@ -6,7 +6,7 @@ import k5s.reviewdevelop.dto.AuthenticationResponseDto;
 import k5s.reviewdevelop.dto.MemberDto;
 import k5s.reviewdevelop.dto.MemberIdNicknameDto;
 import k5s.reviewdevelop.exception.InvalidAuthenticationException;
-import k5s.reviewdevelop.exception.NoLoginForHeaderException;
+import k5s.reviewdevelop.exception.NoLoginException;
 import k5s.reviewdevelop.repository.MemberRepository;
 import k5s.reviewdevelop.api.AuthAPI;
 import k5s.reviewdevelop.api.MemberAPI;
@@ -35,6 +35,7 @@ public class MemberService {
         validateDuplicateMember(member); //중복 회원 검증
 
         memberRepository.save(member);
+
         return member.getId();
     }
 
@@ -66,9 +67,9 @@ public class MemberService {
 
         //리뷰 리스트에 있는 id값을 리스트로 담기
         List<Long> ids = new ArrayList<>();
-        for (Review review : reviews) {
+        reviews.forEach((review) ->{
             ids.add(review.getMemberId());
-        }
+        });
 
         //member Server에게 Request(id list)하고 Response(Map[id, nickName])을 받는다
         List<MemberIdNicknameDto> memberIdNicknameDtos = memberAPI.requestNicknames(ids);
@@ -97,7 +98,7 @@ public class MemberService {
             model.addAttribute("memberName", authenticationResponseDto.getName());
             return authenticationResponseDto.getId();
         } catch(InvalidAuthenticationException e) {
-            throw new NoLoginForHeaderException("비회원입니다");
+            throw new NoLoginException("비회원입니다", e);
         }
     }
 

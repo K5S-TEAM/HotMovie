@@ -58,7 +58,7 @@ public class MovieAPI {
         String result = webClientService.setMovieWebClient().patch().uri("/movies/{movieId}", movieId)
                 .body(Mono.just(dto), ScoreUpdateRequestDto.class)
                 .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new InvalidAuthenticationException("영화서버 오류")))
+                .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new NoMovieException("영화점수오류")))
                 .bodyToMono(String.class)
                 .block();
         return result;

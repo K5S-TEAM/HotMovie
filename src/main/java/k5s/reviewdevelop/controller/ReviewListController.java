@@ -4,7 +4,7 @@ import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
 import k5s.reviewdevelop.dto.AuthenticationResponseDto;
 import k5s.reviewdevelop.dto.MemberDto;
-import k5s.reviewdevelop.exception.NoLoginForHeaderException;
+import k5s.reviewdevelop.exception.NoLoginException;
 import k5s.reviewdevelop.exception.NoMovieException;
 import k5s.reviewdevelop.form.ReviewForm;
 import k5s.reviewdevelop.repository.ReviewRepository;
@@ -75,7 +75,7 @@ public class ReviewListController {
 
 
     @ExceptionHandler
-    public String noLoginForHeaderExceptionHandler(NoLoginForHeaderException e) {
+    public String noLoginForHeaderExceptionHandler(NoLoginException e) {
         return "redirect:/reviews/login";
     }
 

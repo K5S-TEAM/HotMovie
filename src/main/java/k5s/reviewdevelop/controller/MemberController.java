@@ -1,7 +1,7 @@
 package k5s.reviewdevelop.controller;
 
 import k5s.reviewdevelop.domain.Review;
-import k5s.reviewdevelop.exception.NoLoginForHeaderException;
+import k5s.reviewdevelop.exception.NoLoginException;
 import k5s.reviewdevelop.service.HeaderService;
 import k5s.reviewdevelop.service.MemberService;
 import k5s.reviewdevelop.service.ReviewService;
@@ -38,7 +38,7 @@ public class MemberController {
     }
 
     @ExceptionHandler
-    public String noLoginForHeaderExceptionHandler(NoLoginForHeaderException e) {
+    public String noLoginForHeaderExceptionHandler(NoLoginException e) {
         return "redirect:/reviews/login";
     }
 }
