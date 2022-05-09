@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
 <body>
-<div th:replace="fragments/bodyHeader :: bodyHeader-list"/>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
 <header class="navigation py-4 border-bottom border-5 border-dark row">
     <div class="d-flex justify-content-between align-items-end">
         <div class="d-flex justify-content-start align-items-end">
@@ -28,9 +28,9 @@
                 <h5 class="card-title" th:text="${review.description}">Success card title</h5>
                 <p class="card-text" th:text="|- ${nickNames.get(review.memberId)}|">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 <div class="text-end">
-                    <a th:if="${memberId} == ${review.memberId}" href="#" th:href="@{/movies/{movieId}/reviews/{reviewId}/edit (movieId=${movieId}, reviewId=${review.id})}" class="btn btn-dark" role="button">수정</a>
+                    <a th:if="${memberId} == ${review.memberId}" href="#" th:href="@{/reviews/{reviewId}/edit (reviewId=${review.id})}" class="btn btn-dark" role="button">수정</a>
                     <a th:if="${memberId} == ${review.memberId}" href="#"
-                       th:href="'javascript:cancel('+${movieId}+', '+${review.id}+')'"
+                       th:href="'javascript:cancel('+${review.id}+')'"
                        class="btn btn-danger">삭제</a>
                 </div>
             </div>
@@ -42,13 +42,4 @@
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
-<script>
-    function cancel(movieId, reviewId) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "/movies/" + movieId + "/reviews/" + reviewId + "/cancel");
-        document.body.appendChild(form);
-        form.submit();
-    }
-</script>
 </html>

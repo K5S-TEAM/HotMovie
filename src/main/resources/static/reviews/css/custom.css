@@ -136,6 +136,6 @@ header h1{
         color: #FFB000;
 }
 
-#shortBody{
+.shortBody{
     padding: 10px 10%;
 }

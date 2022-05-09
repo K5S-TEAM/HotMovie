@@ -3,6 +3,7 @@ package k5s.reviewdevelop.service;
 import k5s.reviewdevelop.domain.Member;
 import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.domain.Review;
+import k5s.reviewdevelop.dto.MemberDto;
 import k5s.reviewdevelop.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +38,7 @@ public class AuthTest {
     public void 토큰이없는경우(){
 
         //Given
-        Member member = memberService.findMember(null);
+        MemberDto member = memberService.findMember(null);
 
 
         //When
