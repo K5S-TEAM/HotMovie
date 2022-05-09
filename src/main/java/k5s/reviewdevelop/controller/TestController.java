@@ -24,25 +24,21 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/moviess/{memberId}/reviews")
 public class TestController {
 
-    private final ReviewService reviewService;
-    private final MovieService movieService;
-    private final MemberService memberService;
+    @RequestMapping("/")
+    public String home(){
+        return "root";
+    }
 
+    @RequestMapping("/reviews")
+    public String home2(){
+        return "reviewsHome";
+    }
 
-    @GetMapping
-    public String memberReviewList(@PathVariable("memberId") Long memberId, Model model) {
-        if (memberId != null) {
-            model.addAttribute("memberId", memberId);
-        }
-
-        List<Review> reviews = reviewService.findReviewsByMember(memberId);
-        //model.addAttribute("movieName", movieName);
-        //model.addAttribute("movieId", movieId);
-        model.addAttribute("reviews", reviews);
-        return "member/reviews/list";
+    @RequestMapping("/review")
+    public String home3(){
+        return "reviewHome";
     }
 
 

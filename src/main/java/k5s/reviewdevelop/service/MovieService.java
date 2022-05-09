@@ -1,13 +1,11 @@
 package k5s.reviewdevelop.service;
 
-import k5s.reviewdevelop.service.api.MovieAPI;
+import k5s.reviewdevelop.api.MovieAPI;
 import k5s.reviewdevelop.domain.Movie;
 import k5s.reviewdevelop.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
@@ -51,7 +49,14 @@ public class MovieService {
      * 영화 이름요청
      */
     public String findMovieName(Long movieId){
-        return movieAPI.requestMovieName(movieId);
+        if (findOne(movieId)!=null){
+            return findOne(movieId).getName();
+        }
+        //영화가없을시 NoMovieException 반환
+        String movieName = movieAPI.requestMovieName(movieId);
+
+        register(movieName, movieId);
+        return movieName;
     }
 
 }

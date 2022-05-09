@@ -21,7 +21,15 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final MovieRepository movieRepository;
     private final MovieService movieService;
- 
+
+    /**
+     * 멤버찾기
+     */
+    public Movie findMovie(Long reviewId) {
+        Review review = reviewRepository.findOne(reviewId);
+        return review.getMovie();
+    }
+
     /**
      * 리뷰 등록
      */
