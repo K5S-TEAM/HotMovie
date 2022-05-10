@@ -16,6 +16,9 @@ import org.springframework.web.reactive.function.client.ClientRequest;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.util.concurrent.TimeoutException;
+
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +43,8 @@ public class MovieAPI {
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new NoMovieException("영화오류")))
                 .bodyToMono(MovieResponseDto.class)
+                .timeout(Duration.ofSeconds(5))
+                .onErrorMap(TimeoutException.class, ex -> new NoMovieException("연결시간초과"))
                 .block();
 
         if (result.getMovieName() == null) {

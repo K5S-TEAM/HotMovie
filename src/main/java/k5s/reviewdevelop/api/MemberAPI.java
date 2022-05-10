@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +39,8 @@ public class MemberAPI {
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new NoNicknamesException("HTTP 4XX 오류")))
                 .bodyToMono(MemberNicknamesResponseDto.class)
-                .onErrorReturn(null)
+                .timeout(Duration.ofSeconds(5))
+                .onErrorMap(TimeoutException.class, ex -> new NoNicknamesException("서버와 연결이 초과"))
                 .block();
 
         return result.getMemberNicknames();
