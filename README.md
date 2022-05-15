@@ -27,7 +27,15 @@
 
 
 # [개발문서 및 이슈](https://github.com/K5S-TEAM/HotMovie/wiki)
-[WIKI](https://github.com/K5S-TEAM/HotMovie/wiki) 클릭
+### [Home](https://github.com/K5S-TEAM/HotMovie/wiki)
+### [1. DevOps](https://github.com/K5S-TEAM/HotMovie/wiki/1.-DevOps)
+### [1.1 CI](https://github.com/K5S-TEAM/HotMovie/wiki/1.1-CI)
+### [1.2. CD](https://github.com/K5S-TEAM/HotMovie/wiki/1.2.-CD)
+### [1.3. AutoScaling](https://github.com/K5S-TEAM/HotMovie/wiki/1.3.-AutoScaling)
+### [2. 백엔드](https://github.com/K5S-TEAM/HotMovie/wiki/2.-%EB%B0%B1%EC%97%94%EB%93%9C)
+### [2.1 API](https://github.com/K5S-TEAM/HotMovie/wiki/2.1-API)
+### [2.2 리뷰 조회](https://github.com/K5S-TEAM/HotMovie/wiki/2.2-%EB%A6%AC%EB%B7%B0-%EC%A1%B0%ED%9A%8C)
+### [3. Issue](https://github.com/K5S-TEAM/HotMovie/wiki/3.-Issue)
 ### 활용 기술
 `#Spring` `#Java` `#JPA` `#Mysql` `#Thymeleaf` `#Git` `#AWS` `#Jenkins` `#Docker` `#Kubernetes`
 
