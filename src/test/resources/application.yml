@@ -6,7 +6,7 @@ logging.level:
   org.hibernate.type: trace
 
 msa:
-  member-login: http://3.34.45.251/auth/login
-  auth: http://3.34.45.251/auth/login
-  movie: http://13.125.77.149:8080
-  member: http://3.34.45.251
+  member-login: http://localhost:8082/auth/login
+  auth: http://localhost:8083
+  movie: http://localhost:8081
+  member: http://localhost:8082

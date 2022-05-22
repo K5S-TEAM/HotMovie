@@ -65,6 +65,7 @@ public class MovieAPI {
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new NoMovieException("영화점수오류")))
                 .bodyToMono(String.class)
+                .onErrorMap(ExceptionControl::ConnectionError, ex -> new NoMovieException("서버와 연결이 초과"))
                 .block();
         return result;
 
