@@ -38,7 +38,7 @@ public class MemberController {
     }
 
     @ExceptionHandler
-    public String noLoginForHeaderExceptionHandler(NoLoginException e) {
+    public String noLoginExceptionHandler(NoLoginException e) {
         return "redirect:/reviews/login";
     }
 }
