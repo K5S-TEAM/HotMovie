@@ -21,11 +21,14 @@ import org.springframework.ui.Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService
+{
 
     private final MemberRepository memberRepository;
     private final AuthAPI authAPI;
@@ -66,41 +69,37 @@ public class MemberService {
 
 
     /**
-     *
      * 리뷰 리스트에서 review를 쓴 멤버 id 값에 따라 멤버 name이 보이게 한다
      */
-    public HashMap<Long, String> findNickNamesInHTML(List<Review> reviews){
+    public Map<Long, String> findNickNamesInHTML(List<Review> reviews){
 
         //리뷰 리스트에 있는 id값을 리스트로 담기
-        List<Long> ids = new ArrayList<>();
-        reviews.forEach((review) ->{
-            ids.add(review.getMemberId());
-        });
-
-        HashMap<Long, String> memberMap = new HashMap<>();
+        List<Long> ids = reviews.stream().map(Review::getMemberId).collect(Collectors.toList());
 
         //member Server에게 Request(id list)하고 Response(Map[id, nickName])을 받는다
         try {
-            memberAPI.requestNicknames(ids).forEach((memberIdNicknameDto) ->{
-                memberMap.put(memberIdNicknameDto.getId(), memberIdNicknameDto.getNickname());
-            });
+            return memberAPI.requestNicknames(ids)
+                    .stream()
+                    .collect(Collectors.toMap(MemberIdNicknameDto::getId,MemberIdNicknameDto::getNickname));
         }
         catch (NoNicknamesException e){
-            ids.forEach((id) ->{
-                memberMap.put(id, String.valueOf(id));
-            });
+            return ids.stream().collect(Collectors.toMap(x -> x, String::valueOf, (key1,key2)->key2));
         }
-
-        return memberMap;
     }
 
 
+    /**
+     * 어떤 회원이 로그인했는지 확인
+     */
     @Transactional
     public MemberDto findMember(String accessToken) {
         try {
+            /** 인증서버 통신 시작 **/
             AuthenticationResponseDto authenticationResponseDto = authAPI.requestAuthentication(accessToken);
+            // 성공할 경우
             return new MemberDto(authenticationResponseDto.getId(),authenticationResponseDto.getName());
         } catch (InvalidAuthenticationException e) {
+            // 실패할 경우
             return new MemberDto(null, null);
         }
     }
