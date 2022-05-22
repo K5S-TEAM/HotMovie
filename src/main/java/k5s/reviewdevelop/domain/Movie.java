@@ -25,6 +25,8 @@ public class Movie {
 
     private double sumScore = 0;
 
+
+    @Transient
     private double averageScore;
 
     //==Movie가 삭제되면 review들도 삭제된다==//

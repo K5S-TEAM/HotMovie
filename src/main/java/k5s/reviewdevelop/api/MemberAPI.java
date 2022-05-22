@@ -40,7 +40,7 @@ public class MemberAPI {
                 .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new NoNicknamesException("HTTP 4XX 오류")))
                 .bodyToMono(MemberNicknamesResponseDto.class)
                 .timeout(Duration.ofSeconds(5))
-                .onErrorMap(TimeoutException.class, ex -> new NoNicknamesException("서버와 연결이 초과"))
+                .onErrorMap(ExceptionControl::ConnectionError, ex -> new NoNicknamesException("서버와 연결이 초과"))
                 .block();
 
         return result.getMemberNicknames();

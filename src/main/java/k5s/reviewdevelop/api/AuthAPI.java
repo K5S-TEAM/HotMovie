@@ -35,7 +35,7 @@ public class AuthAPI {
                 .onStatus(HttpStatus::is5xxServerError, error -> Mono.error(new InvalidAuthenticationException("인증 정보가 존재하지 않습니다.")))
                 .bodyToMono(AuthenticationResponseDto.class)
                 .timeout(Duration.ofSeconds(5))
-                .onErrorMap(TimeoutException.class, ex -> new InvalidAuthenticationException("연결시간초과"))
+                .onErrorMap(ExceptionControl::ConnectionError, ex -> new InvalidAuthenticationException("서버와 연결이 초과"))
                 .block();
 
         return result;

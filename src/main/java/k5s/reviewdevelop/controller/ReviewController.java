@@ -90,7 +90,7 @@ public class ReviewController {
     }
 
     @ExceptionHandler
-    public String noLoginForHeaderExceptionHandler(NoLoginException e) {
+    public String noLoginExceptionHandler(NoLoginException e) {
         return "redirect:/reviews/login";
     }
 

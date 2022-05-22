@@ -14,8 +14,4 @@ public class AuthenticationResponseDto {
         this.id = id;
     }
 
-    public AuthenticationResponseDto(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }
