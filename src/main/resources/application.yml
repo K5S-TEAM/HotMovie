@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://hotmovie-db.cd6f5pue9i4e.ap-northeast-2.rds.amazonaws.com:3306/review_db
+    username: emrhssla
+    password: em89138913
+  application:
+    name: webclient
+
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
+
+server:
+  port : 8080
+  servlet:
+    session:
+      timeout: 30m
+      tracking-modes: cookie
+
+msa:
+  member-login: http://localhost:8082/auth/login
+  auth: http://localhost:8083
+  movie: http://localhost:8081
+  member: http://localhost:8082
