@@ -42,7 +42,7 @@ tasks.named('test') {
 }
 
 bootJar{
-	archiveFileName = 'k5smovie-review.jar'
+	archiveFileName = 'k5smovie-reviews.jar'
 }
 
 jar {
