@@ -39,3 +39,4 @@ out/
 src/main/resources/application.yml
 Dockerfile
 src/main/resources/sql/reviews.sql
+src/test/resources/application.yml
