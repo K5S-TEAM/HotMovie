@@ -36,6 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-#src/main/resources/application.yml
+src/main/resources/application.yml
 Dockerfile
 src/main/resources/sql/reviews.sql
