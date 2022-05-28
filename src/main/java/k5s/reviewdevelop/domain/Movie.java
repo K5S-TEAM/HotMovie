@@ -21,13 +21,13 @@ public class Movie {
 
     private String name;
 
+
     private int num = 0;
 
     private double sumScore = 0;
 
-
     @Transient
-    private double averageScore;
+    private double averageScore=0;
 
     //==Movie가 삭제되면 review들도 삭제된다==//
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
@@ -46,6 +46,10 @@ public class Movie {
         this.sumScore += score;
         this.num += 1;
         this.averageScore = (sumScore/num);
+        System.out.println("score = " + score);
+        System.out.println("sumScore = " + sumScore);
+        System.out.println("num = " + num);
+        System.out.println("averageScore = " + averageScore);
     }
 
     //== 생성 메서드 ==//

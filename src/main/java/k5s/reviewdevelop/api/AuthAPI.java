@@ -45,14 +45,14 @@ public class AuthAPI {
 
         AuthenticationRequestDto dto = new AuthenticationRequestDto(accessToken);
 
-        AuthenticationResponseDto result = webClientService.setAuthWebClient().post()
+        webClientService.setAuthWebClient().post()
                 .uri("/auth/logout")
                 .body(Mono.just(dto), AuthenticationRequestDto.class)
                 .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new InvalidAuthenticationException("인증 정보가 존재하지 않습니다.")))
-                .bodyToMono(AuthenticationResponseDto.class)
-                .onErrorReturn(new AuthenticationResponseDto(-1L))
+                .onStatus(HttpStatus::is5xxServerError, error -> Mono.error(new InvalidAuthenticationException("인증 정보가 존재하지 않습니다.")))
+                .toBodilessEntity()
                 .block();
+
 
     }
 
