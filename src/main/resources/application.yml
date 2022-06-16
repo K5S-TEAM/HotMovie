@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://hotmovie-db.cd6f5pue9i4e.ap-northeast-2.rds.amazonaws.com:3306/review_db
     username: ${/k5s/db/id}
-    password: em89138913
+    password: ${/k5s/db/passwd}
   application:
     name: webclient
 
