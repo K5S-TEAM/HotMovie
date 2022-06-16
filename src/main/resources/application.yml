@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://hotmovie-db.cd6f5pue9i4e.ap-northeast-2.rds.amazonaws.com:3306/review_db
+    username: ${/k5s/db/id}
+    password: em89138913
+  application:
+    name: webclient
+
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
+
+server:
+  port : 8080
+  servlet:
+    session:
+      timeout: 30m
+      tracking-modes: cookie
+
+msa:
+  member-login: http://54.180.3.74/auth/login
+  auth: http://54.180.3.74:8083
+  movie: http://54.180.3.74:8081
+  member: http://54.180.3.74:8082
+
+awsParameterStorePropertySource:
+  enabled: true
