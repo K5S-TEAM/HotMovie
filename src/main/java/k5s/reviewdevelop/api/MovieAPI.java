@@ -37,14 +37,13 @@ public class MovieAPI {
 
         MovieRequestDto dto = new MovieRequestDto(movieId);
 
-        MovieResponseDto result = webClientService.setMovieWebClient().post()
-                .uri("/movies")
-                .body(Mono.just(dto), MovieRequestDto.class)
+        MovieResponseDto result = webClientService.setMovieWebClient().get()
+                .uri("/movie/{movieId}", movieId)
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError, error -> Mono.error(new NoMovieException("영화오류")))
                 .bodyToMono(MovieResponseDto.class)
                 .timeout(Duration.ofSeconds(5))
-                .onErrorMap(TimeoutException.class, ex -> new NoMovieException("연결시간초과"))
+                .onErrorMap(ExceptionControl::ConnectionError, ex -> new NoMovieException("연결시간초과"))
                 .block();
 
         if (result.getMovieName() == null) {
