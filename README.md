@@ -3,7 +3,7 @@
 
 - 이 프로젝트는 [MSA, CI/CD를 접목시킨 영화리뷰 사이트](https://github.com/K5S-TEAM)에서 **리뷰 기능**을 담당하는 리뷰 서버입니다
 
-# 기능
+# 담당 기능
 - 리뷰조회:
   - 마이페이지 내 리뷰 조회(`/reviews/short-my`)
   - 회원의 리뷰 조회(`/reviews/my`)
@@ -24,9 +24,8 @@
   - 영화서버: 영화 리뷰 평균점수 전송
   - ...
 
-*중요 개발 상세사항은 아래 개발문서 참고*
-
-# [ 개발문서 및 이슈 - WIKI ](https://github.com/K5S-TEAM/HotMovie/wiki)
+*중요 개발 상세사항은 [개발문서](https://github.com/K5S-TEAM/HotMovie/wiki) 참고*
+url: http://k5smovie.ml/
 
 ---
 ### 활용 기술
