@@ -24,8 +24,8 @@
   - 영화서버: 영화 리뷰 평균점수 전송
   - ...
 
-*중요 개발 상세사항은 [개발문서](https://github.com/K5S-TEAM/HotMovie/wiki) 참고*
-url: http://k5smovie.ml/
+- *중요 개발 상세사항은 [개발문서](https://github.com/K5S-TEAM/HotMovie/wiki) 참고*  
+- url: http://k5smovie.ml/
 
 ---
 ### 활용 기술
