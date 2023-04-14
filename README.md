@@ -1,4 +1,4 @@
-# 개요
+# 개요  
 <img width="895" alt="image" src="https://user-images.githubusercontent.com/46098949/168469922-b1528ae7-249a-4bdd-8bde-369f9222a3eb.png">
 
 - 이 프로젝트는 [MSA, CI/CD를 접목시킨 영화리뷰 사이트](https://github.com/K5S-TEAM)에서 **리뷰 기능**을 담당하는 리뷰 서버입니다
@@ -23,7 +23,7 @@
   - 영화서버: 영화 이름 조회
   - 영화서버: 영화 리뷰 평균점수 전송
   - ...
-
+A
 - *중요 개발 상세사항은 [개발문서](https://github.com/K5S-TEAM/HotMovie/wiki) 참고*  
 - url: http://k5smovie.ml/
 
